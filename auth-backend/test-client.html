@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Better Auth Test - Physical AI Textbook</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input {
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background: #e8e8e8;
+        }
+
+        .btn-danger {
+            background: #ff6b6b;
+            color: white;
+            margin-top: 10px;
+        }
+
+        .btn-danger:hover {
+            background: #ff5252;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .message.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+            display: block;
+        }
+
+        .status-box {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            font-size: 13px;
+            margin-bottom: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: 'Monaco', 'Courier New', monospace;
+        }
+
+        .status-box.connected {
+            border-left: 4px solid #28a745;
+            background: #f0f8f4;
+        }
+
+        .status-box.disconnected {
+            border-left: 4px solid #dc3545;
+            background: #fdf6f7;
+        }
+
+        .status-item {
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .status-item strong {
+            color: #333;
+        }
+
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #667eea;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .profile-data {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-family: 'Monaco', 'Courier New', monospace;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .divider {
+            height: 1px;
+            background: #ddd;
+            margin: 20px 0;
+        }
+
+        .health-check {
+            padding: 15px;
+            background: #f0f8ff;
+            border: 1px solid #b0d4ff;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .health-check .status {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .health-check .status.healthy {
+            background: #28a745;
+        }
+
+        .health-check .status.unhealthy {
+            background: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <h1>🔐 Better Auth Test Client</h1>
+                <p>Physical AI Textbook - Local Development</p>
+            </div>
+
+            <div class="content">
+                <!-- Left Column: Backend Status & Auth -->
+                <div class="section">
+                    <h2>Backend Status</h2>
+
+                    <div id="healthMessage" class="message"></div>
+                    <div id="healthStatus" class="status-box disconnected">
+                        <span class="spinner"></span> Checking backend...
+                    </div>
+
+                    <button class="btn-secondary" onclick="checkHealth()">Check Health</button>
+
+                    <div class="divider"></div>
+
+                    <h2>Sign Up</h2>
+                    <div id="signupMessage" class="message"></div>
+
+                    <div class="form-group">
+                        <label for="signupEmail">Email</label>
+                        <input type="email" id="signupEmail" placeholder="user@example.com" value="test@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupName">Name</label>
+                        <input type="text" id="signupName" placeholder="Your Name" value="Test User">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <input type="password" id="signupPassword" placeholder="Enter password" value="Test123!@">
+                    </div>
+
+                    <button class="btn-primary" onclick="handleSignUp()">Sign Up</button>
+
+                    <div class="divider"></div>
+
+                    <h2>Sign In</h2>
+                    <div id="signinMessage" class="message"></div>
+
+                    <div class="form-group">
+                        <label for="signinEmail">Email</label>
+                        <input type="email" id="signinEmail" placeholder="user@example.com" value="test@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signinPassword">Password</label>
+                        <input type="password" id="signinPassword" placeholder="Enter password" value="Test123!@">
+                    </div>
+
+                    <button class="btn-primary" onclick="handleSignIn()">Sign In</button>
+                </div>
+
+                <!-- Right Column: Session & Profile -->
+                <div class="section">
+                    <h2>Session Info</h2>
+                    <div id="sessionMessage" class="message"></div>
+
+                    <button class="btn-secondary" onclick="getSession()">Get Session</button>
+                    <button class="btn-danger" onclick="handleSignOut()">Sign Out</button>
+
+                    <div id="sessionData" class="profile-data" style="display: none;"></div>
+
+                    <div class="divider"></div>
+
+                    <h2>User Profile</h2>
+                    <div id="profileMessage" class="message"></div>
+
+                    <button class="btn-secondary" onclick="getProfile()">Get Profile</button>
+
+                    <div id="profileData" class="profile-data" style="display: none;"></div>
+
+                    <div style="margin-top: 20px; padding: 15px; background: #f0f8ff; border-radius: 6px; border: 1px solid #b0d4ff;">
+                        <h3 style="font-size: 14px; margin-bottom: 10px; color: #0c5460;">Initialize Profile</h3>
+                        <p style="font-size: 12px; color: #555; margin-bottom: 10px;">After sign up, initialize user profile with preferences:</p>
+
+                        <div class="form-group">
+                            <label for="devExperience">Software Dev Experience</label>
+                            <input type="text" id="devExperience" placeholder="beginner, intermediate, advanced" value="beginner">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="roboticsBackground">Robotics Background</label>
+                            <input type="text" id="roboticsBackground" placeholder="none, beginner, intermediate, advanced" value="beginner">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="programmingLangs">Programming Languages (comma-separated)</label>
+                            <input type="text" id="programmingLangs" placeholder="Python, JavaScript, C++" value="Python, JavaScript">
+                        </div>
+
+                        <button class="btn-primary" onclick="initializeProfile()">Initialize Profile</button>
+                    </div>
+
+                    <div id="initProfileMessage" class="message"></div>
+
+                    <div class="divider"></div>
+
+                    <h2>Debug Info</h2>
+                    <div id="debugInfo" class="profile-data">
+Backend URL: http://localhost:3001
+CORS: Enabled for http://localhost:3000 and http://localhost:5173
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3001';
+
+        // Utility functions
+        function showMessage(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `message ${type}`;
+        }
+
+        function clearMessage(elementId) {
+            const element = document.getElementById(elementId);
+            element.textContent = '';
+            element.className = 'message';
+        }
+
+        async function apiCall(endpoint, method = 'GET', body = null) {
+            try {
+                const options = {
+                    method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Origin': window.location.origin,
+                    },
+                    credentials: 'include', // Important for cookies
+                };
+
+                if (body) {
+                    options.body = JSON.stringify(body);
+                }
+
+                const response = await fetch(`${API_URL}${endpoint}`, options);
+                const data = await response.json();
+
+                return { success: response.ok, status: response.status, data };
+            } catch (error) {
+                return { success: false, status: 0, error: error.message };
+            }
+        }
+
+        // Health check
+        async function checkHealth() {
+            const statusEl = document.getElementById('healthStatus');
+            statusEl.className = 'status-box';
+            statusEl.innerHTML = '<span class="spinner"></span> Checking...';
+
+            const result = await apiCall('/health');
+
+            if (result.success) {
+                statusEl.className = 'status-box connected';
+                statusEl.innerHTML = `
+                    <div class="status-item"><strong>Status:</strong> ✅ Connected</div>
+                    <div class="status-item"><strong>Response:</strong> ${JSON.stringify(result.data)}</div>
+                `;
+                showMessage('healthMessage', '✅ Backend is running!', 'success');
+            } else {
+                statusEl.className = 'status-box disconnected';
+                statusEl.innerHTML = `
+                    <div class="status-item"><strong>Status:</strong> ❌ Not Connected</div>
+                    <div class="status-item"><strong>Error:</strong> Cannot reach backend at ${API_URL}</div>
+                    <div class="status-item"><strong>Make sure:</strong></div>
+                    <div class="status-item">1. PostgreSQL is running (docker start postgres_auth)</div>
+                    <div class="status-item">2. Run: npm run dev</div>
+                    <div class="status-item">3. Backend should be on http://localhost:3001</div>
+                `;
+                showMessage('healthMessage', '❌ Cannot connect to backend', 'error');
+            }
+        }
+
+        // Sign Up
+        async function handleSignUp() {
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const name = document.getElementById('signupName').value;
+
+            if (!email || !password) {
+                showMessage('signupMessage', 'Please fill in all fields', 'error');
+                return;
+            }
+
+            showMessage('signupMessage', '⏳ Creating account...', 'info');
+
+            const result = await apiCall('/api/auth/sign-up/email', 'POST', {
+                email,
+                password,
+                name,
+            });
+
+            if (result.success) {
+                showMessage('signupMessage', '✅ Account created! Now sign in.', 'success');
+                document.getElementById('signinEmail').value = email;
+                document.getElementById('signinPassword').value = password;
+            } else {
+                const errorMsg = result.data?.message || result.error || 'Sign up failed';
+                showMessage('signupMessage', `❌ Error: ${errorMsg}`, 'error');
+            }
+        }
+
+        // Sign In
+        async function handleSignIn() {
+            const email = document.getElementById('signinEmail').value;
+            const password = document.getElementById('signinPassword').value;
+
+            if (!email || !password) {
+                showMessage('signinMessage', 'Please fill in all fields', 'error');
+                return;
+            }
+
+            showMessage('signinMessage', '⏳ Signing in...', 'info');
+
+            const result = await apiCall('/api/auth/sign-in/email', 'POST', {
+                email,
+                password,
+            });
+
+            if (result.success) {
+                showMessage('signinMessage', '✅ Signed in successfully!', 'success');
+                // Auto-get session after signin
+                setTimeout(() => getSession(), 500);
+            } else {
+                const errorMsg = result.data?.message || result.error || 'Sign in failed';
+                showMessage('signinMessage', `❌ Error: ${errorMsg}`, 'error');
+            }
+        }
+
+        // Get Session
+        async function getSession() {
+            showMessage('sessionMessage', '⏳ Fetching session...', 'info');
+
+            const result = await apiCall('/api/auth/get-session', 'GET');
+
+            const sessionDataEl = document.getElementById('sessionData');
+
+            if (result.success && result.data) {
+                showMessage('sessionMessage', '✅ Session retrieved', 'success');
+                sessionDataEl.textContent = JSON.stringify(result.data, null, 2);
+                sessionDataEl.style.display = 'block';
+            } else {
+                showMessage('sessionMessage', '❌ Not authenticated or no session', 'error');
+                sessionDataEl.style.display = 'none';
+            }
+        }
+
+        // Sign Out
+        async function handleSignOut() {
+            const result = await apiCall('/api/auth/sign-out', 'POST');
+
+            if (result.success) {
+                showMessage('sessionMessage', '✅ Signed out successfully', 'success');
+                document.getElementById('sessionData').style.display = 'none';
+                document.getElementById('profileData').style.display = 'none';
+                clearMessage('profileMessage');
+            } else {
+                showMessage('sessionMessage', '❌ Sign out failed', 'error');
+            }
+        }
+
+        // Get Profile
+        async function getProfile() {
+            showMessage('profileMessage', '⏳ Fetching profile...', 'info');
+
+            const result = await apiCall('/api/users/profile', 'GET');
+
+            const profileDataEl = document.getElementById('profileData');
+
+            if (result.success && result.data) {
+                showMessage('profileMessage', '✅ Profile retrieved', 'success');
+                profileDataEl.textContent = JSON.stringify(result.data, null, 2);
+                profileDataEl.style.display = 'block';
+            } else {
+                const errorMsg = result.data?.error || result.error || 'Profile not found';
+                showMessage('profileMessage', `❌ ${errorMsg}`, 'error');
+                profileDataEl.style.display = 'none';
+            }
+        }
+
+        // Initialize Profile
+        async function initializeProfile() {
+            const devExp = document.getElementById('devExperience').value;
+            const roboticsExp = document.getElementById('roboticsBackground').value;
+            const languages = document.getElementById('programmingLangs').value
+                .split(',')
+                .map(l => l.trim());
+
+            showMessage('initProfileMessage', '⏳ Initializing profile...', 'info');
+
+            const result = await apiCall('/api/users/profile/init', 'POST', {
+                softwareDevelopmentExperience: devExp,
+                roboticsHardwareBackground: roboticsExp,
+                programmingLanguages: languages,
+            });
+
+            if (result.success) {
+                showMessage('initProfileMessage', '✅ Profile initialized!', 'success');
+                setTimeout(() => getProfile(), 500);
+            } else {
+                const errorMsg = result.data?.error || result.error || 'Failed to initialize';
+                showMessage('initProfileMessage', `❌ ${errorMsg}`, 'error');
+            }
+        }
+
+        // Auto-check health on load
+        window.addEventListener('load', () => {
+            checkHealth();
+        });
+    </script>
+</body>
+</html>

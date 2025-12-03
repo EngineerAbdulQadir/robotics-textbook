@@ -1,0 +1,44 @@
+# Core Framework
+FastAPI>=0.109.0
+uvicorn[standard]>=0.27.0
+pydantic>=2.5.3
+pydantic-settings>=2.1.0
+
+# Database & ORM
+asyncpg>=0.29.0
+psycopg2-binary>=2.9.9
+SQLAlchemy>=2.0.23
+alembic>=1.13.1
+
+# OpenAI & Vector DB
+openai>=1.29.0
+qdrant-client>=1.16.1
+
+# Async & HTTP
+aiohttp>=3.9.1
+httpx>=0.25.2
+python-dotenv>=1.0.0
+
+# Testing (optional - can be installed separately for development)
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+pytest-mock==3.12.0
+httpx==0.25.2
+faker==20.1.0
+
+# Development
+black==23.12.1
+ruff==0.1.11
+mypy==1.7.1
+
+# Logging & Monitoring
+python-json-logger==2.0.7
+prometheus-client==0.19.0
+
+# Caching
+redis==5.0.1
+
+# Optional: Security & Production
+gunicorn==21.2.0
+python-multipart==0.0.6

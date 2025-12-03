@@ -1,0 +1,20 @@
+/* Documentation UI - Left Alignment Only */
+
+/* Main content area - left aligned */
+.theme-doc-markdown {
+  text-align: left !important;
+}
+
+.theme-doc-markdown * {
+  text-align: left !important;
+}
+
+/* All headings left aligned */
+.theme-doc-markdown h1,
+.theme-doc-markdown h2,
+.theme-doc-markdown h3,
+.theme-doc-markdown h4,
+.theme-doc-markdown h5,
+.theme-doc-markdown h6 {
+  text-align: left !important;
+}

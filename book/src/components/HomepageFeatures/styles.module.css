@@ -1,0 +1,52 @@
+.features {
+  padding: 4rem 2rem;
+  background: white;
+}
+
+.feature {
+  margin-bottom: 3rem;
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 1.5rem;
+  background: #eff6ff;
+  border-radius: 12px;
+}
+
+.featureIcon {
+  color: #2563eb;
+}
+
+.featureContent {
+  text-align: center;
+  padding: 0 1rem;
+}
+
+.featureTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 0.75rem;
+}
+
+.featureDescription {
+  font-size: 0.95rem;
+  color: #6c757d;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media screen and (max-width: 996px) {
+  .features {
+    padding: 3rem 1.5rem;
+  }
+
+  .feature {
+    margin-bottom: 2rem;
+  }
+}

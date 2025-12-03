@@ -1,0 +1,153 @@
+.wrapper {
+  position: relative;
+}
+
+.viewToggle {
+  display: flex;
+  gap: 8px;
+  margin: 20px 0;
+  padding: 6px;
+  background: #f1f5f9;
+  border-radius: 12px;
+  width: fit-content;
+}
+
+.toggleBtn {
+  padding: 10px 20px;
+  background: transparent;
+  color: #64748b;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.toggleBtn:hover {
+  color: #334155;
+}
+
+.toggleBtn.active {
+  background: white;
+  color: #667eea;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.personalizedContent {
+  position: relative;
+  margin-top: 24px;
+  padding: 24px;
+  background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+  border: 2px solid #e9d5ff;
+  border-radius: 16px;
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 20px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.content {
+  color: #1e293b;
+  line-height: 1.7;
+}
+
+.content h1,
+.content h2,
+.content h3 {
+  color: #764ba2;
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
+}
+
+.content h1 {
+  font-size: 2rem;
+}
+
+.content h2 {
+  font-size: 1.5rem;
+}
+
+.content h3 {
+  font-size: 1.25rem;
+}
+
+.content p {
+  margin-bottom: 1em;
+}
+
+.content ul,
+.content ol {
+  margin-left: 1.5em;
+  margin-bottom: 1em;
+}
+
+.content li {
+  margin-bottom: 0.5em;
+}
+
+.content code {
+  background: rgba(102, 126, 234, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+}
+
+.content pre {
+  background: rgba(102, 126, 234, 0.1);
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+
+.content blockquote {
+  border-left: 4px solid #667eea;
+  padding-left: 16px;
+  margin: 1em 0;
+  color: #475569;
+  font-style: italic;
+}
+
+.originalContent {
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .personalizedContent {
+    padding: 16px;
+  }
+
+  .viewToggle {
+    width: 100%;
+  }
+
+  .toggleBtn {
+    flex: 1;
+    padding: 8px 12px;
+  }
+}
