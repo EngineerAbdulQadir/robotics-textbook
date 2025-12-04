@@ -45,24 +45,13 @@ function getAuth() {
                 handler: async (context: any) => {
                   try {
                     console.log("🎯 Profile creation hook triggered!");
-                    console.log("   - Path:", context.path);
-                    console.log("   - Method:", context.method);
                     
-                    // The returned value contains the response from signup
-                    // It should have the user object with id
-                    let userId;
+                    // According to Better Auth docs, user data is in context.context.newSession
+                    const newSession = context.context?.newSession;
+                    const userId = newSession?.user?.id;
                     
-                    console.log(`   - context.returned:`, context.returned);
-                    console.log(`   - typeof context.returned:`, typeof context.returned);
-                    
-                    if (context.returned) {
-                      console.log(`   - Returned keys:`, Object.keys(context.returned));
-                      // Try to access user from returned response
-                      userId = context.returned.user?.id || context.returned.id;
-                      console.log(`   - User from returned:`, context.returned.user);
-                    }
-                    
-                    console.log(`   - Extracted userId: ${userId}`);
+                    console.log(`   - New session exists: ${!!newSession}`);
+                    console.log(`   - User ID: ${userId}`);
                     
                     if (userId) {
                       const profileId = `profile_${userId}`;
@@ -79,19 +68,9 @@ function getAuth() {
                         learningGoals: null,
                         preferredLanguage: "en",
                       });
-                      console.log(`✅ Created profile for user ${userId}`);
-                      
-                      // Verify it was created
-                      const [createdProfile] = await db.select().from(schema.userProfiles).where(eq(schema.userProfiles.userId, userId)).limit(1);
-                      console.log(`   - Verification: Profile ${createdProfile ? 'EXISTS' : 'NOT FOUND'}`);
+                      console.log(`✅ Profile created successfully for user ${userId}`);
                     } else {
-                      console.error("   - ❌ No userId found in context");
-                      console.error("   - Available context structure:", {
-                        hasContext: !!context.context,
-                        hasUser: !!context.user,
-                        hasReturned: !!context.returned,
-                        hasBody: !!context.body
-                      });
+                      console.log("   - ⚠️ No userId found - user might not have been created yet");
                     }
                   } catch (error) {
                     console.error("❌ Failed to create user profile:", error);
