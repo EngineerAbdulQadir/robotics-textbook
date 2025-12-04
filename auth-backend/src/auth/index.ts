@@ -2,7 +2,6 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "../db";
 import * as schema from "../db/schema";
-import { eq } from "drizzle-orm";
 
 let authInstance: ReturnType<typeof betterAuth> | null = null;
 
