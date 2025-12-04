@@ -47,6 +47,7 @@ function getAuth() {
                     console.log("🎯 Profile creation hook triggered!");
                     
                     // According to Better Auth docs, user data is in context.context.newSession
+                    // Force rebuild timestamp: 2025-12-04 14:57
                     const newSession = context.context?.newSession;
                     const userId = newSession?.user?.id;
                     
