@@ -42,40 +42,43 @@ function getAuth() {
                   return context.path === "/sign-up/email" && context.method === "POST";
                 },
                 handler: async (context: any) => {
-                  try {
-                    console.log("🎯 Profile creation hook triggered!");
-                    
-                    // According to Better Auth docs, user data is in context.context.newSession
-                    const newSession = context.context?.newSession;
-                    const userId = newSession?.user?.id;
-                    
-                    console.log(`   - New session exists: ${!!newSession}`);
-                    console.log(`   - User ID: ${userId}`);
-                    
-                    if (userId) {
-                      const profileId = `profile_${userId}`;
-                      console.log(`   - Creating profile with ID: ${profileId}`);
+                  // Create profile asynchronously without blocking the response
+                  setImmediate(async () => {
+                    try {
+                      console.log("🎯 Profile creation hook triggered!");
                       
-                      // Create default user profile
-                      await db.insert(schema.userProfiles).values({
-                        id: profileId,
-                        userId: userId,
-                        softwareExperience: null,
-                        hardwareExperience: null,
-                        programmingLanguages: [],
-                        roboticsBackground: null,
-                        learningGoals: null,
-                        preferredLanguage: "en",
-                      });
-                      console.log(`✅ Profile created successfully for user ${userId}`);
-                    } else {
-                      console.log("   - ⚠️ No userId found - user might not have been created yet");
+                      // According to Better Auth docs, user data is in context.context.newSession
+                      const newSession = context.context?.newSession;
+                      const userId = newSession?.user?.id;
+                      
+                      console.log(`   - New session exists: ${!!newSession}`);
+                      console.log(`   - User ID: ${userId}`);
+                      
+                      if (userId) {
+                        const profileId = `profile_${userId}`;
+                        console.log(`   - Creating profile with ID: ${profileId}`);
+                        
+                        // Create default user profile
+                        await db.insert(schema.userProfiles).values({
+                          id: profileId,
+                          userId: userId,
+                          softwareExperience: null,
+                          hardwareExperience: null,
+                          programmingLanguages: [],
+                          roboticsBackground: null,
+                          learningGoals: null,
+                          preferredLanguage: "en",
+                        });
+                        console.log(`✅ Profile created successfully for user ${userId}`);
+                      } else {
+                        console.log("   - ⚠️ No userId found - user might not have been created yet");
+                      }
+                    } catch (error) {
+                      console.error("❌ Failed to create user profile:", error);
                     }
-                  } catch (error) {
-                    console.error("❌ Failed to create user profile:", error);
-                  }
+                  });
                   
-                  // Return context to prevent Better Auth internal error
+                  // Return context immediately to not block the response
                   return context;
                 },
               },
