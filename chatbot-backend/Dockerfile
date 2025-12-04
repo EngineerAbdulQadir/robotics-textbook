@@ -18,5 +18,5 @@ COPY . .
 RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
 USER appuser
 
-# Run migrations and start app
-CMD ["sh", "-c", "alembic upgrade head && uvicorn src.main:app --host 0.0.0.0 --port 8000"]
+# Start app (migrations already run manually)
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
