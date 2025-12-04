@@ -4,309 +4,599 @@ category: "pedagogical"
 applies_to: ["all-chapters"]
 required_for: ["content-implementer", "chapter-planner"]
 description: |
-  Design learning experiences for AI-native software development, integrating the Three Roles Framework 
-  (AI as Teacher/Student/Co-Worker), co-learning partnership pedagogy, and "Specs Are the New Syntax" 
-  paradigm into programming curriculum. Use this skill when educators need to prepare students for 
-  professional AI-driven development workflows, teach effective specification-first collaboration, or 
-  balance AI assistance with foundational learning goals. This skill helps create lessons that leverage
-  AI tools appropriately while ensuring students build independent capability, bidirectional learning
-  patterns, and ethical AI use practices. Aligned with Constitution v4.0.1.
+  Transform programming education by treating AI as a collaborative learning partner rather than 
+  a code-completion tool. This skill guides educators in creating curriculum where students learn 
+  to orchestrate AI systems through clear specifications, engage in bidirectional learning (teaching 
+  AI while learning from it), and develop critical verification skills. Emphasizes the Three Roles 
+  Framework where both human and AI act as teacher, student, and collaborator. Prepares students 
+  for AI-native development workflows while maintaining independent capability and ethical practices.
 version: "2.1.0"
 dependencies: ["constitution:v4.0.1"]
 ---
 
-# AI Collaborate Teaching
+# AI Collaborative Teaching: A Partnership Approach
 
-## Purpose
+## The Big Picture
 
-Enable educators to design **co-learning experiences** where AI is a bidirectional learning partner following the Three Roles Framework, not just autocomplete. This skill helps:
-- Teach **"Specs Are the New Syntax"** as the PRIMARY skill (not code-writing)
-- Design lessons that emphasize **specification-first**, **co-learning** with AI, and **validation-before-trust**
-- Establish patterns for AI pair programming in education
-- Build AI tool literacy (capabilities, limitations, verification), with explicit **spec → generate → validate** loops
-- Demonstrate the **Three Roles Framework** (AI as Teacher/Student/Co-Worker)
-- Show **bidirectional learning** (human teaches AI, AI teaches human)
-- Create ethical guidelines for responsible AI use
-- Assess appropriate balance of AI integration in curriculum
+**Traditional coding education is becoming obsolete.** Students who learn only syntax and algorithms without AI collaboration skills will struggle in modern development environments. But students who rely entirely on AI without understanding fundamentals will be equally lost.
 
-## The Three Roles Framework (Section IIa Stage 2, Constitution v5.0.0)
+This skill helps you navigate that tension by designing curriculum where:
+- **Specifications become the primary skill** (not memorizing syntax)
+- **AI acts as a true partner** (not a magic code generator)
+- **Students learn bidirectionally** (teaching AI while learning from it)
+- **Verification is non-negotiable** (trust, but always verify)
+- **Ethics are embedded** (not an afterthought)
 
-**CRITICAL**: All co-learning content MUST demonstrate this framework (per Section IIa Stage 2 forcing functions):
+Think of it this way: You're teaching students to be **AI orchestrators**, not AI users or AI avoiders.
 
-### AI's Three Roles:
-1. **Teacher**: Suggests patterns, architectures, best practices students may not know
-2. **Student**: Learns from student's domain expertise, feedback, corrections
-3. **Co-Worker**: Collaborates as peer, not subordinate
+## The Three Roles Framework: A Dance, Not a Command
 
-### Human's Three Roles:
-1. **Teacher**: Guides AI through clear specifications, provides domain knowledge
-2. **Student**: Learns from AI's suggestions, explores new patterns
-3. **Orchestrator**: Designs collaboration strategy, makes final decisions
+**Here's what most educators get wrong:** They think AI is either a teacher (students passively receive answers) or a tool (students command it to generate code). Both miss the point.
 
-### The Convergence Loop
+**The reality:** Effective AI collaboration is a dynamic dance where both partners switch roles fluidly.
 
-**Required Pattern for All AI-Integrated Lessons:**
+### Scenario: Building a REST API Client
+
+Imagine a student named Maya learning to integrate a weather API:
+
+**Round 1 - Human as Teacher, AI as Student:**
+- Maya: "I need to fetch weather data for San Francisco. The API requires an API key in the header and returns JSON."
+- AI learns Maya's requirements, domain context, and constraints
+
+**Round 2 - AI as Teacher, Human as Student:**
+- AI: "Here's a basic implementation. I've also added retry logic with exponential backoff—APIs can be flaky."
+- Maya: "Wait, what's exponential backoff?" (She learns a new pattern)
+
+**Round 3 - Both as Co-Workers:**
+- Maya: "Good idea, but I need to handle rate limiting differently. Our API has a 100 requests/hour limit."
+- AI: "Let me adjust the retry strategy to respect that limit..."
+- Together they converge on a solution neither would have created alone
+
+### The Convergence Loop (Your Lesson Design Template)
+
+Every AI-integrated lesson should follow this pattern:
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│  1. Human specifies intent (with context/constraints)   │
-│  2. AI suggests approach (may include new patterns)     │
-│  3. Human evaluates AND LEARNS ("I hadn't thought of X")│
-│  4. AI learns from feedback (adapts to preferences)     │
-│  5. CONVERGE on optimal solution (better than either    │
-│     could produce alone)                                 │
-└─────────────────────────────────────────────────────────┘
+1. Student specifies what they want (with context)
+   → Teaching AI their requirements
+
+2. AI suggests an approach (possibly with new ideas)
+   → Teaching student new patterns
+
+3. Student evaluates and learns
+   → "Oh, I hadn't considered error handling that way"
+
+4. AI adapts to feedback
+   → "Adjusting for your specific constraints..."
+
+5. Convergence: Better than either alone
+   → Student gains new knowledge + working solution
 ```
 
-**Content Requirements:**
-- ✅ At least ONE instance per lesson where student learns FROM AI's suggestion
-- ✅ At least ONE instance where AI adapts TO student's feedback
-- ✅ Convergence through iteration (not "perfect on first try")
-- ✅ Both parties contributing unique value
-- ❌ NEVER present AI as passive tool awaiting commands
-- ❌ NEVER show only human teaching AI (one-way instruction)
-- ❌ NEVER hide what student learns from AI's approaches
+### Non-Negotiable Requirements
 
-## Relationship to Graduated Teaching Pattern (Constitution Principle 13)
+**Your lessons MUST include:**
+- ✅ At least one moment where the student explicitly learns something new from AI
+- ✅ At least one moment where AI adapts based on student feedback
+- ✅ Iteration (not "AI generates perfect code on first try")
+- ✅ Both contributing unique value
 
-**This skill complements the graduated teaching pattern:**
+**Your lessons MUST NEVER:**
+- ❌ Show AI as a passive code generator awaiting commands
+- ❌ Show only one-way instruction (student → AI)
+- ❌ Hide what the student learns from AI's suggestions
 
-**Graduated Teaching Pattern** (Constitution Principle 13) defines **WHAT book teaches vs WHAT AI handles:**
-- **Tier 1:** Book teaches foundational concepts (stable, won't change)
-- **Tier 2:** AI companion handles complex execution (student specifies, AI executes)
-- **Tier 3:** AI orchestration at scale (10+ items, multi-step workflows)
+## How This Fits With Other Teaching Patterns
 
-**This skill (AI Collaborate Learning)** defines **HOW students use AI during learning:**
-- When AI is involved (from Pattern Tier 2+), students use AI collaboration patterns (explainer, debugger, pair programmer)
-- Balance AI-assisted work with independent verification (40/40/20 model)
-- Apply ethical guidelines and verification strategies
+**Think of it like learning to drive:**
 
-**In Practice:**
+**Graduated Teaching Pattern** tells you WHAT to teach:
+- **Tier 1:** Basic controls (steering, pedals) - you teach this directly
+- **Tier 2:** Highway merging (complex) - student practices with instructor guidance
+- **Tier 3:** Cross-country trip planning - orchestrating multiple skills
+
+**This Collaborative Teaching Skill** tells you HOW to teach with AI:
+- **Tier 1:** Minimal AI (students need hands-on practice)
+- **Tier 2:** AI as co-pilot (student specifies, AI assists, student validates)
+- **Tier 3:** AI as navigator (student orchestrates, AI handles complexity)
+
+### Real Example: Teaching Markdown
+
+**Tier 1 - Foundational (Book teaches, minimal AI):**
 ```
-1. Book teaches Markdown # headings (Tier 1 - foundational)
-   → Students practice manually
-   → No AI collaboration patterns needed yet
-
-2. Students learn Markdown tables (Tier 2 - complex syntax)
-   → AI companion handles table generation
-   → Now apply AI collaboration patterns from this skill:
-     - Student specifies table requirements
-     - AI generates table
-     - Student validates output
-     - Student can ask AI to explain syntax (AI as Explainer)
-
-3. Students convert 10 documents (Tier 3 - orchestration)
-   → AI orchestrates batch conversion
-   → Apply AI pair programming pattern (AI as Pair Programmer)
-   → Maintain 40/40/20 balance with verification checkpoints
+Lesson: "Creating Headings in Markdown"
+- You teach: # for H1, ## for H2, ### for H3
+- Students practice: Write 10 headings manually
+- AI role: None yet (building muscle memory)
 ```
 
-**Key Integration Points:**
+**Tier 2 - Complex (AI companion, collaborative patterns):**
+```
+Lesson: "Creating Complex Tables in Markdown"
+- You teach: Table structure concept
+- Students specify: "I need a 5-column table with headers..."
+- AI generates: The table syntax
+- Students validate: Check alignment, content
+- Students learn: "Oh, that's how you align columns!"
+```
 
-**With 4-Layer Method (Section IIa):**
-- Layer 1 (Manual practice): Minimal AI collaboration — build independent capability first
-- Layer 2-4 (AI-assisted onward): Apply this skill's collaboration patterns
+**Tier 3 - Orchestration (AI handles scale, student directs):**
+```
+Lesson: "Converting 20 Documents to Markdown"
+- Students orchestrate: Define conversion rules
+- AI executes: Batch processing
+- Students verify: Spot-check outputs
+- Students iterate: Refine rules based on results
+```
 
-**With Graduated Teaching (Principle 2):**
-- Tier 1 (Foundational): Book teaches directly — minimal AI patterns needed
-- Tier 2 (Complex): AI companion handles — apply this skill's collaboration patterns
-- Tier 3 (Scale): AI orchestration — full pair programming with strategic oversight
+### The 40/40/20 Balance Rule
 
-Refer to Section IIa (4-Layer Method) and Principle 2 (Graduated Teaching) for decisions about WHEN and WHAT. Use this skill for HOW students collaborate with AI effectively.
+No matter which tier, maintain this balance:
+- **40% Independent Foundation:** Students build skills without AI
+- **40% AI-Assisted Practice:** Students collaborate with AI
+- **20% Verification:** Students prove they can work independently
 
-## When to Activate
+**Why this matters:** A student who can't code without AI hasn't learned to code.
 
-Use this skill when:
-- Designing programming courses that integrate AI coding assistants
-- Teaching students to use AI tools (ChatGPT, GitHub Copilot, Claude) effectively
-- Creating prompt engineering curriculum or exercises
-- Establishing policies for AI use in programming education
-- Balancing AI assistance with independent skill development
-- Assessing whether AI integration enhances or hinders learning
-- Educators ask about "AI in teaching", "prompt engineering pedagogy", "AI pair programming", "AI tool literacy"
-- Reviewing existing AI-integrated curricula for improvements
+## When You Need This Skill
 
-## Process
+**Scenario 1: "My students just copy-paste from ChatGPT"**
+You're teaching web development. Students submit perfect React components but can't explain how useState works. They panic during exams when AI isn't available.
 
-### Step 1: Understand the Educational Context
+→ **Use this skill to:** Design lessons with the 40/40/20 balance and verification checkpoints.
 
-When a request comes in to integrate AI into programming education, first clarify:
-- **What programming topic or course?** (Intro to Python, web development, data structures, etc.)
-- **What is the student level?** (Complete beginners, intermediate, advanced)
-- **What AI tools are available?** (ChatGPT, GitHub Copilot, Claude, other)
-- **What are the learning objectives?** (What should students be able to do?)
-- **What foundational skills must be built independently?** (Core concepts that shouldn't use AI)
-- **What ethical concerns exist?** (Academic integrity, over-reliance, attribution)
+**Scenario 2: "Should I ban AI or embrace it?"**
+Your department is debating AI policy. Some faculty want to ban it entirely. Others say "let students use whatever tools they want." You're stuck in the middle.
 
-### Step 2: Review Prompt Engineering Pedagogy
+→ **Use this skill to:** Create nuanced policies that leverage AI while ensuring learning.
 
-Learn how to teach students to craft effective prompts:
-📖 [reference/prompt-engineering-pedagogy.md](reference/prompt-engineering-pedagogy.md)
+**Scenario 3: "I want to teach prompt engineering"**
+You realize specification skills matter more than syntax memorization. You want to teach students to communicate effectively with AI systems.
 
-This document covers:
-- **Four Prompt Competencies**: Context setting, constraint specification, output format, iterative refinement
-- **Teaching Prompt Quality**: Clarity, specificity, context completeness, testability
-- **Scaffolding Strategies**: Templates (beginner), critique (intermediate), independent crafting (advanced)
-- **Common Anti-Patterns**: Vague requests, assuming AI knows context, overloading prompts, passive acceptance
-- **Assessment Strategies**: Prompt journals, prompt challenges, peer review
+→ **Use this skill to:** Design prompt engineering curriculum with proper scaffolding.
 
-**Key Insight**: Prompt engineering is about effective communication, problem specification, and critical evaluation - all valuable software engineering skills.
+**Scenario 4: "How do I assess AI-assisted work?"**
+Traditional coding exams don't reflect real-world AI-assisted development. You need new assessment strategies.
 
-### Step 3: Design AI Pair Programming Patterns
+→ **Use this skill to:** Create assessments that measure understanding, not just code production.
 
-Review how students can work with AI as a collaborative partner:
-📖 [reference/ai-pair-programming-patterns.md](reference/ai-pair-programming-patterns.md)
+**Scenario 5: "My curriculum feels outdated"**
+You're teaching Python the same way you did in 2015. Students will graduate into AI-native workplaces. Your curriculum needs modernization.
 
-This document covers five patterns:
-- **Pattern 1: AI as Explainer** - Student inquires, AI clarifies concepts
-- **Pattern 2: AI as Debugger** - Student reports bugs, AI helps diagnose
-- **Pattern 3: AI as Code Reviewer** - Student writes code, AI provides feedback
-- **Pattern 4: AI as Pair Programmer** - Student and AI co-create code incrementally
-- **Pattern 5: AI as Hypothesis Validator** - Student forms hypotheses, AI confirms/refutes
+→ **Use this skill to:** Redesign curriculum for AI-native development workflows.
 
-**Critical Balance**: Student should understand and own all code, not just copy-paste AI output.
+## Your Design Process: From Chaos to Clarity
 
-**Teaching Strategies**:
-- Scaffold from guided templates to independent use
-- Require students to explain all code (even AI-generated)
-- Include AI-free checkpoints to verify learning
-- Balance assistance with independent struggle
+### Step 1: Map Your Territory
 
-### Step 4: Build AI Tool Literacy
+**Before designing anything, answer these questions:**
 
-Teach students to understand AI capabilities and limitations:
-📖 [reference/ai-tool-literacy.md](reference/ai-tool-literacy.md)
+**About Your Students:**
+- Are they complete beginners or do they have programming experience?
+- Have they used AI tools before, or is this their first time?
+- What are their career goals? (Software engineers? Data scientists? Hobbyists?)
 
-This document covers:
-- **What AI Does Well**: Pattern recognition, code generation, explanation, refactoring, debugging common issues
-- **What AI Does Poorly**: Complex domain logic, system design, originality, understanding unstated context, comprehensive security
-- **Conceptual Understanding**: AI is pattern recognition from training data, not logical reasoning
-- **Verification Strategies**: Read/understand, test thoroughly, code review, cross-check documentation, run and observe
-- **When to Trust**: High confidence for well-known patterns, low confidence for security/performance/complex logic
-- **Recognizing Biases**: Recency, popularity, correctness, cultural, representation biases
+**About Your Course:**
+- What's the core topic? (Python basics? Web APIs? Data structures?)
+- What should students be able to do by the end?
+- Which skills MUST be learned independently? (Critical thinking? Debugging logic?)
+- Which skills can be AI-assisted? (Syntax lookup? Boilerplate generation?)
 
-**Key Principle**: Trust, but verify - always.
+**About Your Constraints:**
+- What AI tools do students have access to? (Free ChatGPT? GitHub Copilot? Claude?)
+- What are your institution's policies on AI use?
+- What ethical concerns keep you up at night? (Cheating? Over-reliance? Attribution?)
 
-### Step 5: Establish Ethical Guidelines
+**Example:** Teaching "Intro to Python" to complete beginners with free ChatGPT access. Main concern: Students won't learn fundamentals if they rely on AI too early.
 
-Create clear ethical frameworks for AI use:
-📖 [reference/ethical-ai-use.md](reference/ethical-ai-use.md)
+### Step 2: Teach Specification Skills (Not Just Syntax)
 
-This document covers seven ethical principles:
-1. **Honesty and Transparency**: Disclose AI assistance
-2. **Academic Integrity**: AI enhances learning, doesn't substitute for it
-3. **Attribution and Credit**: Give credit where due
-4. **Understanding Over Outputs**: Never submit code you don't understand
-5. **Bias Awareness**: Recognize AI limitations and biases
-6. **Over-Reliance Prevention**: Maintain independent coding ability
-7. **Professional Responsibility**: You're accountable for all code
+**The paradigm shift:** In AI-native development, writing clear specifications is more valuable than memorizing syntax.
 
-**Teaching Strategies**:
-- Set explicit policies early (Week 1)
-- Discuss ethical dilemmas regularly
-- Model ethical AI use
-- Require process documentation (when/why AI was used)
-- Include AI-free assessments periodically
+**What students need to learn:**
 
-### Step 6: Design AI-Integrated Lesson
+**1. Context Setting**
+```
+Bad:  "Create a function"
+Good: "Create a Python function for a weather app that converts Celsius to Fahrenheit"
+```
 
-Use the lesson template to structure AI integration:
-📄 [templates/ai-lesson-template.yml](templates/ai-lesson-template.yml)
+**2. Constraint Specification**
+```
+Bad:  "Make it work"
+Good: "Handle invalid inputs (non-numeric, out of range -273.15 to 1000). Return None for invalid inputs."
+```
 
-The template includes:
-- **Lesson Metadata**: Topic, duration, audience, AI integration level
-- **Learning Objectives**: With AI role specified for each
-- **Foundational vs. AI-Assisted Skills**: What must be learned independently vs. with AI help
-- **Lesson Phases**:
-  - **Introduction** (no AI): Motivation and prerequisites
-  - **Foundation** (no AI): Build core concepts independently first
-  - **AI-Assisted Exploration** (with AI): Practice and explore with scaffolding
-  - **Independent Consolidation** (no AI): Verify learning without AI
-  - **Wrap-Up**: Reflection and discussion
-- **AI Integration Strategy**: Tools, guidelines, prompt templates, disclosure requirements
-- **Balance Assessment**: 40% foundational / 40% AI-assisted / 20% verification (target ratio)
-- **Ethical Considerations**: Policies, prohibited actions, verification requirements
+**3. Output Format**
+```
+Bad:  "Give me the code"
+Good: "Provide the function with docstring, type hints, and 3 example test cases"
+```
 
-**Key Structure**: Always start with independent foundation, allow AI assistance with scaffolding, verify learning independently.
+**4. Iterative Refinement**
+```
+Student: "The function works but it's slow for large datasets"
+AI: "Let me optimize using vectorization..."
+Student: "Perfect, now explain why vectorization is faster"
+```
 
-### Step 7: Create Effective Prompt Templates
+**Teaching progression:**
+- **Week 1-2:** Give students templates (fill-in-the-blank prompts)
+- **Week 3-5:** Students critique bad prompts and improve them
+- **Week 6+:** Students craft prompts independently
 
-Provide students with templates for different tasks:
-📄 [templates/prompt-design-template.md](templates/prompt-design-template.md)
+📖 **Deep dive:** See [reference/prompt-engineering-pedagogy.md](reference/prompt-engineering-pedagogy.md) for detailed strategies.
 
-This template provides structures for:
-- **Basic Prompt Structure**: Context + Task + Constraints
-- **Detailed Prompt Template**: With focus areas and output format specs
-- **Task-Specific Templates**: Code generation, explanation, debugging, code review, alternatives
-- **Anti-Patterns**: What to avoid
-- **Prompt Quality Checklist**: Verify before submission
+### Step 3: Teach the Five Collaboration Patterns
 
-**Teaching Approach**: Start with templates, gradually remove scaffolding as students gain expertise.
+**Students need specific patterns for working with AI, not vague "use AI to help you" instructions.**
 
-### Step 8: Assess AI Integration Balance
+**Pattern 1: AI as Explainer**
+```
+Student: "I don't understand why this recursive function has two base cases"
+AI: "Let me break it down. The first base case handles empty lists..."
+Student: "Ah! So one catches empty, the other catches single-element lists"
+```
+*When to use:* Student encounters unfamiliar concepts or patterns
 
-Once a lesson is designed, validate the AI integration:
+**Pattern 2: AI as Debugger**
+```
+Student: "My API call returns 401 Unauthorized but I'm sending the API key"
+AI: "Let me check... You're sending it as a query parameter, but this API expects it in the Authorization header"
+Student: "Let me try that... Yes! It works now"
+```
+*When to use:* Student has a specific bug they can't diagnose
+
+**Pattern 3: AI as Code Reviewer**
+```
+Student: [Writes a function, then asks] "Review this for potential issues"
+AI: "The logic is correct, but you're not handling the case where the input list is None..."
+Student: "Good catch. Let me add that check"
+```
+*When to use:* Student has working code but wants to improve it
+
+**Pattern 4: AI as Pair Programmer**
+```
+Student: "Let's build a rate limiter. I'll start with the basic structure"
+AI: "Here's a skeleton. Should we use a token bucket or sliding window algorithm?"
+Student: "Token bucket. Let me specify the requirements..."
+[They iterate together]
+```
+*When to use:* Building something new, neither knows the perfect approach
+
+**Pattern 5: AI as Hypothesis Validator**
+```
+Student: "I think this is slow because we're making N database queries in a loop"
+AI: "That's likely correct. This is the N+1 query problem. Here's how to fix it with a single query..."
+Student: "Let me test that theory with profiling first"
+```
+*When to use:* Student has a theory about performance, bugs, or design
+
+**Critical rule:** Students must explain ALL code, even AI-generated. If they can't explain it, they don't submit it.
+
+📖 **Deep dive:** See [reference/ai-pair-programming-patterns.md](reference/ai-pair-programming-patterns.md) for teaching strategies.
+
+### Step 4: Teach AI's Superpowers and Kryptonite
+
+**Students need to know when to trust AI and when to be skeptical.**
+
+**AI's Superpowers (High Confidence):**
+- ✅ Generating boilerplate code (CRUD operations, API clients)
+- ✅ Explaining unfamiliar syntax or patterns
+- ✅ Suggesting common algorithms (sorting, searching)
+- ✅ Refactoring messy code into cleaner versions
+- ✅ Debugging common errors (syntax mistakes, type mismatches)
+
+**AI's Kryptonite (Low Confidence):**
+- ❌ Complex business logic specific to your domain
+- ❌ System architecture decisions (microservices vs monolith?)
+- ❌ Security vulnerabilities (AI often misses edge cases)
+- ❌ Performance optimization (needs profiling data)
+- ❌ Understanding unstated context ("make it better" means what?)
+
+**Real Example:**
+```
+Student: "AI, create a secure password hashing function"
+AI: [Generates code using MD5]
+Student: "Wait, isn't MD5 insecure?"
+AI: "You're right, let me use bcrypt instead"
+```
+**Lesson:** AI suggested an outdated pattern. Student caught it. This is why verification matters.
+
+**The Verification Checklist (Teach This!):**
+1. **Read and understand** - Can you explain what every line does?
+2. **Test thoroughly** - Does it handle edge cases?
+3. **Cross-check docs** - Is this the current best practice?
+4. **Run and observe** - Does it actually work as expected?
+5. **Security review** - Could this be exploited?
+
+**Key principle:** Trust, but verify. Always.
+
+📖 **Deep dive:** See [reference/ai-tool-literacy.md](reference/ai-tool-literacy.md) for bias recognition and detailed strategies.
+
+### Step 5: Set Ethical Boundaries (Week 1, Non-Negotiable)
+
+**Without clear ethics, AI integration becomes academic dishonesty.**
+
+**The Seven Commandments of AI Use:**
+
+**1. Disclose AI assistance**
+```
+❌ "I wrote this myself" [used AI extensively]
+✅ "I used ChatGPT to generate the initial structure, then modified it to handle our specific requirements"
+```
+
+**2. AI enhances learning, doesn't replace it**
+```
+❌ Using AI to complete homework you haven't attempted
+✅ Attempting problems independently, then using AI to explore alternative approaches
+```
+
+**3. Give credit where due**
+```
+❌ Submitting AI-generated code as your own invention
+✅ "This error handling pattern was suggested by Claude"
+```
+
+**4. Never submit code you don't understand**
+```
+❌ "AI wrote this, I have no idea how it works, but it passes the tests"
+✅ "AI suggested this approach. Here's how it works: [detailed explanation]"
+```
+
+**5. Recognize AI biases and limitations**
+```
+❌ Assuming AI output is always correct
+✅ "AI suggested this, but I'm verifying against the official documentation"
+```
+
+**6. Maintain independent ability**
+```
+❌ Can't write any code without AI
+✅ Can code independently, uses AI to accelerate and explore
+```
+
+**7. You're accountable for all code**
+```
+❌ "The AI made a mistake, not me"
+✅ "I should have caught that bug in the AI-generated code"
+```
+
+**Enforcement strategies:**
+- **Week 1:** Explicit policy discussion, signed agreement
+- **Ongoing:** Require "AI usage log" with all assignments
+- **Monthly:** AI-free coding challenges to verify independent capability
+- **Exams:** Mix of AI-assisted and AI-free sections
+
+**Example AI Usage Log:**
+```
+Assignment: Build REST API client
+- Used ChatGPT to generate initial request structure (10 min)
+- Wrote error handling independently (30 min)
+- Used Claude to review code for security issues (5 min)
+- Modified based on feedback (15 min)
+Total AI time: 15 min / 60 min (25%)
+```
+
+📖 **Deep dive:** See [reference/ethical-ai-use.md](reference/ethical-ai-use.md) for ethical dilemma discussions.
+
+### Step 6: Structure Your Lesson (The Sandwich Pattern)
+
+**Every AI-integrated lesson follows this structure:**
+
+```
+┌────────────────────────────────────────┐
+│ BREAD: Independent Foundation (No AI)  │  40%
+│ - Build core concepts                   │
+│ - Practice fundamentals                 │
+├────────────────────────────────────────┤
+│ FILLING: AI-Assisted Exploration        │  40%
+│ - Collaborate with AI                   │
+│ - Build complex projects                │
+├────────────────────────────────────────┤
+│ BREAD: Independent Verification (No AI) │  20%
+│ - Prove you learned it                  │
+│ - Work without AI support               │
+└────────────────────────────────────────┘
+```
+
+**Example: Teaching Python Functions (90 minutes)**
+
+**Phase 1: Foundation (30 min, NO AI)**
+- Lecture: What are functions? Why use them?
+- Demo: Write 3 functions on the board
+- Students: Write 3 simple functions independently
+- Quick quiz: Trace function execution
+
+**Phase 2: AI-Assisted Building (40 min, WITH AI)**
+- Students use AI to build more complex functions
+- Required: Document all AI interactions
+- Required: Explain every line of AI-generated code
+- Instructor circulates, asks "Why did you choose this approach?"
+
+**Phase 3: Verification (15 min, NO AI)**
+- Students write 2 functions without AI
+- Must explain their code to a partner
+- Submit for grading
+
+**Phase 4: Reflection (5 min)**
+- "What did you learn from AI that you didn't know before?"
+- "What can you do now that you couldn't do before?"
+
+📄 **Template:** See [templates/ai-lesson-template.yml](templates/ai-lesson-template.yml) for full structure.
+
+### Step 7: Give Students Prompt Templates (Training Wheels)
+
+**Beginners need structure. Give them fill-in-the-blank templates.**
+
+**Template 1: Code Generation**
+```
+I'm working on [PROJECT CONTEXT].
+I need to [SPECIFIC TASK].
+Constraints:
+- [CONSTRAINT 1]
+- [CONSTRAINT 2]
+Please provide [OUTPUT FORMAT].
+```
+
+**Example filled in:**
+```
+I'm working on a weather app in Python.
+I need to fetch data from the OpenWeather API and parse the JSON response.
+Constraints:
+- Handle network errors gracefully
+- Cache responses for 5 minutes to avoid rate limiting
+Please provide the function with docstring and error handling.
+```
+
+**Template 2: Debugging**
+```
+I'm trying to [WHAT YOU'RE TRYING TO DO].
+Expected behavior: [WHAT SHOULD HAPPEN]
+Actual behavior: [WHAT'S HAPPENING]
+Here's my code: [CODE]
+What's wrong?
+```
+
+**Template 3: Code Review**
+```
+Please review this code for:
+- Correctness
+- Edge cases I might have missed
+- Performance issues
+- Security vulnerabilities
+
+[YOUR CODE]
+```
+
+**Progression:**
+- **Weeks 1-2:** Students fill in templates (training wheels on)
+- **Weeks 3-5:** Students modify templates for their needs (training wheels loosening)
+- **Weeks 6+:** Students write prompts from scratch (training wheels off)
+
+📄 **Full templates:** See [templates/prompt-design-template.md](templates/prompt-design-template.md)
+
+### Step 8: Validate Your Lesson Design
+
+**Before teaching, run your lesson through the balance checker:**
 
 ```bash
 python .claude/skills/ai-augmented-teaching/scripts/assess-ai-integration.py lesson-plan.yml
 ```
 
-**The script assesses**:
-- ✅ **Balance**: Is the ratio appropriate (foundation/AI-assisted/verification)?
-- ✅ **Foundational Skills**: Are core skills protected from AI assistance?
-- ✅ **Verification**: Are there checkpoints to test learning without AI?
-- ✅ **Ethical Guidelines**: Are disclosure, understanding, and verification required?
+**What it checks:**
 
-**Interpret Results**:
-- **Overall Score**: 90+ (Excellent), 75-89 (Good), 60-74 (Needs Improvement), <60 (Poor)
-- **Balance Issues**: Adjust percentages if too much/little AI assistance
-- **Missing Verification**: Add independent checkpoints
-- **Ethical Gaps**: Include disclosure requirements, understanding checks
+✅ **Balance Check:** Is your 40/40/20 ratio appropriate?
+- Too much AI (>60%)? Students won't build independent skills
+- Too little verification (<15%)? You can't confirm learning
 
-**If score is low**:
-1. Review recommendations
-2. Adjust lesson phases (add independent work or verification)
-3. Clarify foundational vs. AI-assisted skills
-4. Add ethical guidelines
-5. Re-assess until score improves
+✅ **Foundation Check:** Are core skills protected?
+- Students must learn fundamentals without AI first
+- Example: Can't use AI for "Hello World" programs
 
-### Step 9: Validate Prompt Quality
+✅ **Verification Check:** Can students prove they learned?
+- Must include AI-free checkpoints
+- Example: Write a function without AI assistance
 
-For prompt engineering exercises, validate prompt quality:
+✅ **Ethics Check:** Are guidelines clear?
+- Disclosure requirements
+- Understanding verification
+- Attribution expectations
 
+**Score interpretation:**
+- **90-100:** Excellent balance, ready to teach
+- **75-89:** Good, minor adjustments recommended
+- **60-74:** Needs improvement, rebalance phases
+- **<60:** Poor balance, major redesign needed
+
+**Common fixes:**
+- **Score too low?** Add more independent foundation work
+- **No verification?** Add AI-free checkpoint at the end
+- **Missing ethics?** Add disclosure and understanding requirements
+
+### Step 9: Grade Student Prompts (Not Just Code)
+
+**In AI-native development, prompt quality matters as much as code quality.**
+
+**Validate student prompts:**
 ```bash
-python .claude/skills/ai-augmented-teaching/scripts/validate-prompts.py prompts.yml
+python .claude/skills/ai-augmented-teaching/scripts/validate-prompts.py student-prompts.yml
 ```
 
-**The script checks**:
-- **Clarity**: Is the prompt specific and clear?
-- **Context**: Does it provide adequate background?
-- **Task Specification**: Is the requested task explicit?
-- **Testability**: Can the output be verified?
-- **Constraints**: Are requirements and limitations specified?
+**What makes a good prompt?**
 
-**Interpret Results**:
-- **Quality Score**: 85+ (Excellent), 70-84 (Good), 50-69 (Needs Improvement), <50 (Poor)
-- **Suggestions**: Specific improvements for each prompt
-- **Common Issues**: Vague language, missing context, unclear tasks
+**Clarity (25 points)**
+- ❌ "Make a function" (vague)
+- ✅ "Create a Python function that validates email addresses using regex" (specific)
 
-**Use for**:
-- Evaluating student-written prompts
-- Improving prompt templates
-- Teaching prompt quality criteria
+**Context (25 points)**
+- ❌ "Fix this code" [paste code with no explanation]
+- ✅ "This function should parse CSV files, but it crashes on empty lines. Here's the code..."
 
-### Step 10: Iterate and Refine
+**Testability (25 points)**
+- ❌ "Make it better" (how do you verify "better"?)
+- ✅ "Refactor to reduce time complexity from O(n²) to O(n log n)"
 
-After teaching with AI integration:
-1. **Gather Feedback**: What worked? What didn't?
-2. **Assess Learning**: Did students achieve objectives independently?
-3. **Check for Over-Reliance**: Can students code without AI?
-4. **Review Ethical Use**: Were guidelines followed?
-5. **Adjust Balance**: Increase/decrease AI assistance based on outcomes
+**Constraints (25 points)**
+- ❌ "Write a sorting function" (no requirements)
+- ✅ "Write a sorting function that's stable, in-place, and handles duplicate values"
 
-## Output Format
+**Score interpretation:**
+- **85-100:** Excellent prompt, will get good AI output
+- **70-84:** Good prompt, minor improvements needed
+- **50-69:** Needs improvement, too vague or missing context
+- **<50:** Poor prompt, won't get useful AI output
 
-Present AI-integrated lesson plans following the ai-lesson-template.yml structure:
+**Use this for:**
+- Grading prompt engineering assignments
+- Giving students feedback on prompt quality
+- Teaching what makes prompts effective
+
+### Step 10: Iterate Based on Reality
+
+**After teaching your first AI-integrated lesson, ask:**
+
+**1. Did students learn?**
+- Test: Give them an AI-free coding challenge
+- If they struggle: Increase foundation phase, decrease AI phase
+- If they excel: Your balance is good
+
+**2. Are students over-reliant?**
+- Warning signs: Panic when AI unavailable, can't explain their code
+- Fix: More AI-free practice, stricter explanation requirements
+
+**3. Were ethics followed?**
+- Check: Review AI usage logs, ask students to explain their code
+- If violations: Reinforce policies, add consequences
+
+**4. What did students say?**
+- Survey: "What helped you learn? What confused you?"
+- Common feedback: "I wish we had more/less AI time"
+- Adjust accordingly
+
+**5. What surprised you?**
+- Maybe: Students learned faster than expected
+- Maybe: Students struggled with prompts more than coding
+- Maybe: Ethical issues you didn't anticipate
+- Adapt your lesson for next time
+
+**Remember:** First iteration is never perfect. Expect to adjust.
+
+## Quick Reference: Lesson Plan Checklist
+
+**When designing an AI-integrated lesson, ensure you have:**
+
+✅ **Clear learning objectives** - What should students do independently vs. with AI?
+
+✅ **Three distinct phases** - Foundation (40%), AI-Assisted (40%), Verification (20%)
+
+✅ **Ethical guidelines** - Disclosure, understanding verification, AI usage logging
+
+✅ **Convergence moments** - Student learns from AI, AI adapts to student
+
+✅ **Verification prompts** - Force students to explain, test, and validate
+
+**Present AI-integrated lesson plans following this structure:
 
 ```yaml
 lesson_metadata:
@@ -560,72 +850,109 @@ ai_assistance_balance:
 
 ---
 
-## Troubleshooting
+## When Things Go Wrong (Troubleshooting Guide)
 
-### Assessment Shows Poor Balance (<60 score)
+### Problem 1: "My lesson scored poorly on the balance checker"
 
-**Problem**: assess-ai-integration.py reports low score
+**You ran the assessment script and got <60. Now what?**
 
-**Common Issues**:
-1. Too much AI assistance (>60%) - Students won't build independent skills
-2. Too little verification (<15%) - No way to confirm learning
-3. No foundational phase - Students use AI from the start
-4. Missing ethical guidelines
+**Diagnosis:**
+- Check the output - what's the specific issue?
+- Too much AI (>60%)? Students become dependent
+- Too little verification (<15%)? You can't prove they learned
+- No foundation phase? They're using AI before understanding basics
 
-**Solutions**:
-1. Add foundational phase (no AI) at the beginning
-2. Reduce AI-assisted percentage to 30-50%
-3. Add independent verification phase at end
-4. Include disclosure requirements and ethical guidelines
-5. Re-assess until score improves to 75+
+**The fix:**
+```
+Before: 10% foundation, 70% AI-assisted, 20% verification
+After:  40% foundation, 40% AI-assisted, 20% verification
+```
 
----
-
-### Students Over-Rely on AI
-
-**Problem**: Students can't code without AI assistance
-
-**Indicators**:
-- Panic when AI unavailable
-- Can't explain AI-generated code
-- Performance drops significantly on AI-free assessments
-
-**Solutions**:
-1. **Increase AI-Free Time**: More foundational and verification phases
-2. **20-Minute Rule**: Students must try independently for 20 min before AI
-3. **Progressive Independence**: Gradually reduce AI assistance over semester
-4. **Regular AI-Free Assessments**: Verify retention of skills
+**Action plan:**
+1. Add 20-30 minutes of AI-free foundation work at the start
+2. Cut AI-assisted time proportionally
+3. Ensure verification phase exists (even if just 15 minutes)
+4. Add ethical guidelines if missing
+5. Re-run the checker - aim for 75+
 
 ---
 
-### Prompts Are Low Quality (<50 score)
+### Problem 2: "My students can't code without AI anymore"
 
-**Problem**: validate-prompts.py reports poor quality prompts
+**The nightmare scenario: Students panic when AI is unavailable.**
 
-**Common Issues**:
-- Too vague: "Write code for sorting"
-- No context: "Fix this" [paste code]
-- No testability: Can't verify if output is correct
-- Missing constraints: No requirements specified
+**Warning signs you're seeing:**
+- Student: "Wait, ChatGPT is down? I can't do the assignment!"
+- Student submits perfect code but can't explain a single line
+- AI-free quiz scores are 40% lower than AI-assisted work
 
-**Solutions**:
-1. **Teach Prompt Structure**: Context + Task + Constraints + Output Format
-2. **Provide Templates**: Scaffold with fill-in-the-blank templates
-3. **Prompt Critique Practice**: Analyze good vs. bad prompts
-4. **Iterative Refinement**: Show how to improve prompts based on results
+**Why this happened:**
+You gave them AI too early, or too much, without building independent foundation.
+
+**The intervention:**
+1. **Immediate:** Announce "AI-free Fridays" - one day per week, no AI allowed
+2. **Short-term:** Implement the "20-minute rule" - try independently for 20 min before using AI
+3. **Medium-term:** Rebalance your lessons - increase foundation from 20% to 40%
+4. **Long-term:** Progressive independence - reduce AI assistance 10% each month
+5. **Assessment:** Monthly AI-free coding challenges to verify independent capability
+
+**Prevention for next semester:**
+Start with 60/20/20 balance for beginners, gradually shift to 40/40/20 as they build confidence.
 
 ---
 
-### Ethical Violations Occur
+### Problem 3: "Student prompts are terrible"
 
-**Problem**: Students use AI without disclosure, submit code they don't understand
+**You're grading prompts and they're all scoring <50. Ouch.**
 
-**Prevention**:
-1. **Set Policy Early**: Week 1, explicit guidelines
-2. **Require Documentation**: Students log all AI use
-3. **Explanation Requirement**: Must explain all code (including AI-generated)
-4. **AI-Free Assessments**: Periodically verify independent capability
-5. **Consequences**: Clear penalties for violations
+**What you're seeing:**
+- "Write code for sorting" (no context, no constraints)
+- "Fix this" [dumps 200 lines of code with no explanation]
+- "Make it better" (what does "better" even mean?)
+
+**Why this is happening:**
+Students don't understand that prompts are specifications. They think AI is magic.
+
+**The teaching fix:**
+1. **Week 1:** Show side-by-side comparison of bad vs. good prompts
+2. **Week 2:** Give them templates - force structure with fill-in-the-blanks
+3. **Week 3:** Prompt critique exercise - students grade each other's prompts
+4. **Week 4:** Iterative refinement - write prompt, test with AI, improve, repeat
+5. **Ongoing:** Grade prompts, not just code - prompt quality = 30% of assignment grade
+
+**The formula to teach:**
+```
+Good Prompt = Context + Specific Task + Constraints + Output Format + Testability
+```
+
+---
+
+### Problem 4: "Students are cheating with AI"
+
+**You caught a student submitting AI-generated code they clearly don't understand.**
+
+**The incident:**
+- Student submits flawless code using advanced patterns they've never seen
+- You ask them to explain it - they can't
+- Or worse: They didn't disclose AI use at all
+
+**Why this happened:**
+Ethical guidelines weren't clear, or weren't enforced, or came too late.
+
+**Immediate response:**
+1. **Have the conversation:** "Can you explain this code to me?"
+2. **If they can't:** "This suggests you don't understand it. That's the real problem."
+3. **Consequence:** Resubmit with full explanation, or reduced grade, depending on policy
+4. **Document it:** Track violations to identify patterns
+
+**Prevention for next time:**
+1. **Week 1, Day 1:** Explicit AI policy discussion, signed agreement
+2. **Every assignment:** Require AI usage log (what you used, when, why)
+3. **Random checks:** "Explain this function to me" during office hours
+4. **Mix assessments:** Some AI-assisted, some AI-free
+5. **Model behavior:** Show students HOW you use AI ethically
+
+**The key insight:** Most "cheating" is actually confusion about what's allowed. Be crystal clear.
 
 ---
 
@@ -719,26 +1046,68 @@ This skill works well with:
 
 ---
 
-## Tips for Success
+## Ten Principles for AI-Integrated Teaching
 
-1. **Start with Foundation**: Always build core skills independently before AI
-2. **Balance is Critical**: 40/40/20 is a good starting ratio
-3. **Verify Learning**: AI-free checkpoints are non-negotiable
-4. **Teach Verification**: Students must test and understand AI outputs
-5. **Model Ethical Use**: Demonstrate how YOU use AI responsibly
-6. **Iterate Prompts**: First prompts are rarely perfect
-7. **Document Everything**: Require students to log AI usage
-8. **Maintain Independence**: Periodic AI-free work ensures skills remain
-9. **Discuss Ethics Often**: Not just Week 1 - ongoing conversations
-10. **Adapt to Context**: Beginners need more foundation, advanced students can handle more AI
+**1. Foundation First, Always**
+Never let students touch AI until they've built core skills independently. A student who can't write a for-loop without AI hasn't learned programming.
+
+**2. The 40/40/20 Rule is Your North Star**
+Foundation (40%), AI-Assisted (40%), Verification (20%). Adjust for context, but always maintain all three phases.
+
+**3. Verification is Non-Negotiable**
+If you can't verify learning without AI, you haven't taught anything. AI-free checkpoints are mandatory.
+
+**4. Teach Verification, Not Just Usage**
+Students must learn to test, validate, and critique AI output. "Trust but verify" is the mantra.
+
+**5. Model Ethical Behavior**
+Show students how YOU use AI. Narrate your process: "I'm asking AI for suggestions, but I'll verify this against the docs."
+
+**6. Prompts Are Specifications**
+Treat prompt engineering as a core skill. Grade prompts like you grade code. Poor specifications = poor outcomes.
+
+**7. Document Everything**
+Require AI usage logs. This isn't surveillance—it's metacognition. Students learn by reflecting on their AI use.
+
+**8. Independence is the Goal**
+AI should accelerate learning, not replace it. Regularly check: Can students still code without AI?
+
+**9. Ethics Are Ongoing, Not One-Time**
+Don't just lecture about ethics in Week 1. Discuss ethical dilemmas throughout the semester as they arise.
+
+**10. Context Matters**
+Beginners need 60/20/20. Intermediate students can handle 40/40/20. Advanced students might use 25/55/20. Adapt to your audience.
 
 ---
 
-**Ready to design AI-integrated curriculum?** Provide:
-- Programming topic and level
-- Student audience (beginner/intermediate/advanced)
-- Available AI tools
-- Learning objectives
-- Current concerns (over-reliance, academic integrity, etc.)
+## Ready to Get Started?
 
-Or share an existing lesson plan and I'll assess AI integration balance and suggest improvements!
+**Tell me about your teaching situation:**
+
+📚 **What are you teaching?**
+- Topic: (e.g., "Intro to Python", "Web Development", "Data Structures")
+- Student level: (Beginner / Intermediate / Advanced)
+- Duration: (One lesson? Full course? Semester-long?)
+
+🤖 **What AI tools do students have?**
+- Free ChatGPT? GitHub Copilot? Claude? Other?
+
+🎯 **What's your goal?**
+- Modernize existing curriculum?
+- Design new AI-integrated lessons?
+- Fix over-reliance problems?
+- Create ethical AI use policies?
+
+⚠️ **What concerns you?**
+- Students copying without understanding?
+- Academic integrity issues?
+- Balancing AI use with independent learning?
+- Assessment strategies?
+
+**Or share an existing lesson plan** and I'll:
+- Assess the AI integration balance
+- Identify potential over-reliance risks
+- Suggest improvements for verification and ethics
+- Provide specific recommendations
+
+Let's build curriculum that prepares students for AI-native development while ensuring they actually learn to code.
