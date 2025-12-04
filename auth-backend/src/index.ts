@@ -5,6 +5,7 @@ import { auth } from "./auth";
 import { userProfileRoutes } from "./routes/userProfile";
 import { personalizationRoutes } from "./routes/personalization";
 import { translationRoutes } from "./routes/translation";
+import { testUserRoutes } from "./routes/testUser";
 import { setupUserProfileSchema } from "./db/userProfileSchema";
 import { validateDatabaseConnection } from "./db";
 import { toNodeHandler } from "better-auth/node";
@@ -76,6 +77,9 @@ app.use("/api", personalizationRoutes);
 
 // Translation routes
 app.use("/api", translationRoutes);
+
+// Test user routes (for development/testing)
+app.use("/api/test", testUserRoutes);
 
 // Health check
 app.get("/health", (_req: Request, res: Response) => {
