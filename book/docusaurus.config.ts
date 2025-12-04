@@ -43,7 +43,7 @@ const config: Config = {
           routeBasePath: 'docs',
           sidebarPath: './sidebars.ts',
           editUrl:
-            'https://github.com/EngineerAbdulQadir/robotics-textbook/tree/main',
+            'https://github.com/EngineerAbdulQadir/robotics-textbook/tree/master',
           showLastUpdateTime: false,
         },
         blog: false, // Disable blog feature
