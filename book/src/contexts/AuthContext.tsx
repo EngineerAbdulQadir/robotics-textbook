@@ -18,12 +18,12 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Backend API URL - points to Render deployment
+// Backend API URL - points to Railway deployment
 const getApiUrl = () => {
   if (typeof window === 'undefined') return 'http://localhost:3001';
   return window.location.hostname === 'localhost'
     ? 'http://localhost:3001'
-    : 'https://physical-ai-auth.onrender.com'; // Render backend URL
+    : 'https://rag-chatbot-backend-production-5f64.up.railway.app';
 };
 
 export function AuthProvider({ children }: { children: ReactNode }) {
