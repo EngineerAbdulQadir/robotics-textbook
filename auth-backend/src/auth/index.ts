@@ -48,26 +48,21 @@ function getAuth() {
                     console.log("   - Path:", context.path);
                     console.log("   - Method:", context.method);
                     
-                    // Try multiple possible paths to find userId
-                    let userId = context.context?.user?.id || 
-                                 context.user?.id || 
-                                 context.returned?.user?.id ||
-                                 context.body?.user?.id;
+                    // The returned value contains the response from signup
+                    // It should have the user object with id
+                    let userId;
                     
-                    console.log(`   - Extracted userId: ${userId}`);
-                    console.log(`   - Context keys:`, Object.keys(context));
-                    if (context.context) {
-                      console.log(`   - context.context keys:`, Object.keys(context.context));
-                      if (context.context.user) {
-                        console.log(`   - context.context.user:`, context.context.user);
-                      }
-                    }
-                    if (context.body) {
-                      console.log(`   - context.body keys:`, Object.keys(context.body));
-                    }
+                    console.log(`   - context.returned:`, context.returned);
+                    console.log(`   - typeof context.returned:`, typeof context.returned);
+                    
                     if (context.returned) {
                       console.log(`   - Returned keys:`, Object.keys(context.returned));
+                      // Try to access user from returned response
+                      userId = context.returned.user?.id || context.returned.id;
+                      console.log(`   - User from returned:`, context.returned.user);
                     }
+                    
+                    console.log(`   - Extracted userId: ${userId}`);
                     
                     if (userId) {
                       const profileId = `profile_${userId}`;
