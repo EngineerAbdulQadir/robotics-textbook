@@ -43,7 +43,7 @@ const config: Config = {
           routeBasePath: 'docs',
           sidebarPath: './sidebars.ts',
           editUrl:
-            'https://github.com/92Bilal26/physical-ai-textbook/tree/main/',
+            'https://github.com/EngineerAbdulQadir/robotics-textbook/tree/main',
           showLastUpdateTime: false,
         },
         blog: false, // Disable blog feature
@@ -71,7 +71,7 @@ const config: Config = {
           label: 'Learn',
         },
         {
-          href: 'https://github.com/92Bilal26/physical-ai-textbook',
+          href: 'https://github.com/EngineerAbdulQadir/robotics-textbook',
           label: 'GitHub',
           position: 'right',
         },
@@ -106,7 +106,7 @@ const config: Config = {
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/92Bilal26/physical-ai-textbook',
+              href: 'https://github.com/EngineerAbdulQadir/robotics-textbook',
             },
             {
               label: 'ROS Discourse',
@@ -114,7 +114,7 @@ const config: Config = {
             },
             {
               label: 'Issues & Feedback',
-              href: 'https://github.com/92Bilal26/physical-ai-textbook/issues',
+              href: 'https://github.com/EngineerAbdulQadir/robotics-textbook/issues',
             },
           ],
         },
@@ -123,7 +123,7 @@ const config: Config = {
           items: [
             {
               label: 'Contributing Guide',
-              href: 'https://github.com/92Bilal26/physical-ai-textbook/blob/main/CONTRIBUTING.md',
+              href: 'https://github.com/EngineerAbdulQadir/robotics-textbook/blob/master/CONTRIBUTING.md',
             },
             {
               label: 'ROS 2 Documentation',
@@ -136,7 +136,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Physical AI Textbook Project. MIT License. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Physical AI & Humanoid Robotics Textbook. Built with ❤️ by Abdul Qadir. Powered by Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,
