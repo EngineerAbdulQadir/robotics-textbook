@@ -14,7 +14,7 @@ const getApiUrl = () => {
   if (typeof window === 'undefined') return 'http://localhost:3001';
   return window.location.hostname === 'localhost'
     ? 'http://localhost:3001'
-    : 'https://physical-ai-auth.onrender.com'; // Render backend URL
+    : 'https://rag-chatbot-backend-production-5f64.up.railway.app';
 };
 
 export default function AuthModal({ isOpen: propIsOpen, onClose: propOnClose, onAuthSuccess }: AuthModalProps) {
