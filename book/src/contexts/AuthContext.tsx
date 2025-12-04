@@ -18,7 +18,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Backend API URL - points to Railway deployment
+// Backend API URL - points to Railway auth backend deployment
 const getApiUrl = () => {
   if (typeof window === 'undefined') return 'http://localhost:3001';
   return window.location.hostname === 'localhost'

@@ -1,246 +1,289 @@
-﻿/**
- * ChatWidget - Embedded RAG chatbot for Physical AI Textbook
- */
+import React, { useState, useEffect, useRef } from 'react';
+import { MessageCircle, X, Send, Trash2 } from 'lucide-react';
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { MessageCircle, Bot, X, MoreVertical, Trash2, Send } from 'lucide-react';
-import { ChatMessage, Citation } from './types/ChatMessage';
-import { ChatSession } from './types/ChatSession';
-import { ChatAPI } from './services/ChatAPI';
-import { SessionManager } from './services/SessionManager';
-import styles from './ChatWidget.module.css';
+const API_URL = typeof window !== 'undefined' && window.location.hostname === 'localhost'
+  ? 'http://localhost:8000'
+  : 'https://rag-chatbot-backend-production-5e31.up.railway.app';
 
-// Backend URL configuration
-// For local development: http://localhost:8000
-// For production (GitHub Pages): https://rag-chatbot-backend-production-5e31.up.railway.app
-const DEV_API_URL = 'http://localhost:8000';
-const PROD_API_URL = 'https://rag-chatbot-backend-production-5e31.up.railway.app';
-
-const API_URL = typeof window !== 'undefined' 
-  ? (window as any).__CHATBOT_API_URL__ || (window.location.hostname === 'localhost' ? DEV_API_URL : PROD_API_URL)
-  : DEV_API_URL;
+interface Message {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: Date;
+}
 
 export default function ChatWidget() {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedText, setSelectedText] = useState('');
-  const [session, setSession] = useState<ChatSession | null>(null);
-  const [inputValue, setInputValue] = useState('');
-  const [showMenu, setShowMenu] = useState(false);
-  const [showSources, setShowSources] = useState<Record<string, boolean>>({});
-
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [sessionId] = useState(() => `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const chatApiRef = useRef<ChatAPI | null>(null);
-  const sessionManagerRef = useRef<SessionManager | null>(null);
 
-  useEffect(() => {
-    chatApiRef.current = new ChatAPI(API_URL);
-    sessionManagerRef.current = new SessionManager();
-    const existingSession = sessionManagerRef.current.getSession();
-    if (existingSession) {
-      setSession(existingSession);
-    } else {
-      setSession(sessionManagerRef.current.createSession());
-    }
-    const savedMessages = sessionManagerRef.current.getConversationHistory();
-    if (savedMessages) setMessages(savedMessages);
-
-    const handleSelection = () => {
-      const selected = window.getSelection()?.toString().trim();
-      if (selected && selected.length > 10) setSelectedText(selected);
-    };
-    document.addEventListener('mouseup', handleSelection);
-    return () => document.removeEventListener('mouseup', handleSelection);
-  }, []);
-
-  useEffect(() => {
+  const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
   }, [messages]);
 
-  const handleSend = useCallback(async (question: string, useSelection = false) => {
-    if (!question.trim() || !session || !chatApiRef.current) return;
-    setInputValue('');
+  const sendMessage = async () => {
+    if (!input.trim() || isLoading) return;
 
-    const userMessage: ChatMessage = {
+    const userMessage: Message = {
       id: Date.now().toString(),
-      type: 'user',
-      content: question,
+      role: 'user',
+      content: input.trim(),
       timestamp: new Date(),
     };
+
     setMessages(prev => [...prev, userMessage]);
+    setInput('');
+    setIsLoading(true);
 
     try {
-      setIsLoading(true);
-      let response;
-      if (useSelection && selectedText) {
-        const chapter = window.location.pathname.split('/')[2] || 'Unknown';
-        response = await chatApiRef.current.querySelection(selectedText, question, session.id, chapter);
-      } else {
-        response = await chatApiRef.current.query(question, session.id, window.location.pathname);
+      const response = await fetch(`${API_URL}/api/v1/chat/query`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          question: userMessage.content,
+          session_id: sessionId,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to get response');
       }
 
-      const assistantMessage: ChatMessage = {
-        id: response.message_id,
-        type: 'assistant',
-        content: response.answer,
-        sources: response.sources,
-        confidence: response.confidence,
+      const data = await response.json();
+      
+      const assistantMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        content: data.answer || 'Sorry, I could not generate a response.',
         timestamp: new Date(),
       };
+
       setMessages(prev => [...prev, assistantMessage]);
-      sessionManagerRef.current?.saveConversation([...messages, userMessage, assistantMessage]);
-      setSelectedText('');
-    } catch (err) {
-      const errorMsg = err instanceof Error ? err.message : 'Failed to get response';
-      setMessages(prev => [...prev, { id: `error-${Date.now()}`, type: 'error', content: errorMsg, timestamp: new Date() }]);
+    } catch (error) {
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        content: 'Sorry, I encountered an error. Please try again.',
+        timestamp: new Date(),
+      };
+      setMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
     }
-  }, [session, selectedText, messages]);
-
-  const handleClearHistory = () => {
-    if (window.confirm('Clear conversation history?')) {
-      setMessages([]);
-      sessionManagerRef.current?.clearConversation();
-      setShowMenu(false);
-    }
   };
 
-  const handleNewSession = () => {
-    if (window.confirm('Start new conversation?')) {
-      const newSession = sessionManagerRef.current?.createSession();
-      if (newSession) setSession(newSession);
-      setMessages([]);
-      setSelectedText('');
-      setShowMenu(false);
-    }
+  const clearChat = () => {
+    setMessages([]);
   };
-
-  const formatTime = (date: Date) => new Intl.DateTimeFormat('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }).format(date);
-  const toggleSources = (id: string) => setShowSources(prev => ({ ...prev, [id]: !prev[id] }));
 
   if (!isOpen) {
     return (
-      <div className={`${styles.chatWidget} ${styles.bottomRight} ${styles.closed}`}>
-        <button className={styles.floatingBtn} onClick={() => setIsOpen(true)} title="Open Chat">
-          <MessageCircle size={28} />
-        </button>
-      </div>
+      <button 
+        onClick={() => setIsOpen(true)}
+        style={{
+          position: 'fixed',
+          bottom: '24px',
+          right: '24px',
+          width: '60px',
+          height: '60px',
+          borderRadius: '50%',
+          background: '#2563eb',
+          color: 'white',
+          border: 'none',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          boxShadow: '0 4px 12px rgba(37, 99, 235, 0.4)',
+          zIndex: 9999,
+        }}
+      >
+        <MessageCircle size={24} />
+      </button>
     );
   }
 
   return (
-    <div className={`${styles.chatWidget} ${styles.bottomRight} ${styles.open}`}>
-      <div className={styles.header}>
-        <div className={styles.headerTitle}>
-          <Bot size={20} />
+    <div style={{
+      position: 'fixed',
+      bottom: '24px',
+      right: '24px',
+      width: '400px',
+      height: '600px',
+      maxWidth: 'calc(100vw - 48px)',
+      maxHeight: 'calc(100vh - 48px)',
+      background: 'white',
+      borderRadius: '16px',
+      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
+      display: 'flex',
+      flexDirection: 'column',
+      zIndex: 9999,
+      overflow: 'hidden',
+    }}>
+      <div style={{
+        background: '#2563eb',
+        color: 'white',
+        padding: '16px 20px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexShrink: 0,
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontWeight: 600, fontSize: '16px' }}>
+          <MessageCircle size={20} />
           <span>Textbook Assistant</span>
         </div>
-        <div className={styles.headerControls}>
-          <div style={{ position: 'relative' }}>
-            <button className={styles.menuBtn} onClick={() => setShowMenu(!showMenu)}>
-              <MoreVertical size={16} />
-            </button>
-            {showMenu && (
-              <div className={styles.dropdown}>
-                <button className={styles.dropdownItem} onClick={handleClearHistory}>
-                  <Trash2 size={14} style={{ marginRight: '8px' }} />
-                  Clear History
-                </button>
-                <button className={styles.dropdownItem} onClick={handleNewSession}>
-                  <Bot size={14} style={{ marginRight: '8px' }} />
-                  New Session
-                </button>
-              </div>
-            )}
-          </div>
-          <button className={styles.toggleBtn} onClick={() => setIsOpen(false)}>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <button onClick={clearChat} title="Clear chat" style={{
+            background: 'rgba(255, 255, 255, 0.2)',
+            border: 'none',
+            color: 'white',
+            width: '32px',
+            height: '32px',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <Trash2 size={18} />
+          </button>
+          <button onClick={() => setIsOpen(false)} title="Close" style={{
+            background: 'rgba(255, 255, 255, 0.2)',
+            border: 'none',
+            color: 'white',
+            width: '32px',
+            height: '32px',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
             <X size={18} />
           </button>
         </div>
       </div>
 
-      <div className={styles.body}>
-        <div className={styles.messages}>
-          {messages.length === 0 && !isLoading && (
-            <div className={styles.emptyState}>
-              <Bot size={48} style={{ color: '#2563eb', marginBottom: '1rem' }} />
-              <div className={styles.emptyTitle}>Welcome!</div>
-              <div className={styles.emptyHint}>{selectedText ? `Ask about: "${selectedText.substring(0, 40)}..."` : 'Ask questions about the textbook content'}</div>
-            </div>
-          )}
-
-          {messages.map(msg => (
-            <div key={msg.id} className={`${styles.messageBubble} ${msg.type === 'user' ? styles.userMessage : msg.type === 'error' ? styles.errorMessage : styles.assistantMessage}`}>
-              <div className={styles.messageContent}>
-                {msg.content}
-                {msg.sources && msg.sources.length > 0 && (
-                  <>
-                    <button className={styles.sourcesToggle} onClick={() => toggleSources(msg.id)}>
-                      📚 {msg.sources.length} source{msg.sources.length !== 1 ? 's' : ''}
-                    </button>
-                    {showSources[msg.id] && (
-                      <div className={styles.sourcesList}>
-                        {msg.sources.map((src: Citation) => (
-                          <div key={src.id} className={styles.sourceItem}>
-                            <span className={styles.sourceChapter}>{src.chapter}</span>
-                            {src.section && <span> - {src.section}</span>}
-                            <div className={styles.sourceExcerpt}>{src.content_excerpt}</div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </>
-                )}
-              </div>
-              <div className={styles.messageTime}>{formatTime(msg.timestamp)}</div>
-            </div>
-          ))}
-
-          {isLoading && (
-            <div className={styles.loading}>
-              <div className={styles.loadingDots}>
-                <span className={styles.loadingDot}></span>
-                <span className={styles.loadingDot}></span>
-                <span className={styles.loadingDot}></span>
-              </div>
-              <span>Thinking...</span>
-            </div>
-          )}
-          <div ref={messagesEndRef} />
-        </div>
-
-        <div className={styles.inputArea}>
-          {selectedText && (
-            <div className={styles.selectedTextBadge}>
-              <span className={styles.selectedLabel}>Selected: </span>
-              "{selectedText.substring(0, 50)}{selectedText.length > 50 ? '...' : ''}"
-            </div>
-          )}
-          <div className={styles.inputWrapper}>
-            <textarea
-              className={styles.textarea}
-              value={inputValue}
-              onChange={e => setInputValue(e.target.value.slice(0, 500))}
-              onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(inputValue); } }}
-              placeholder="Ask about the textbook..."
-              disabled={isLoading}
-              rows={1}
-            />
-            <div className={styles.buttons}>
-              <button 
-                className={styles.sendBtn} 
-                onClick={() => handleSend(inputValue)} 
-                disabled={isLoading || !inputValue.trim()}
-                title="Send message"
-              >
-                <Send size={20} />
-              </button>
-            </div>
-            <div className={styles.charCount}>{inputValue.length}/500</div>
+      <div style={{
+        flex: 1,
+        overflowY: 'auto',
+        overflowX: 'hidden',
+        padding: '20px',
+        background: '#f8fafc',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '16px',
+        minHeight: 0,
+      }}>
+        {messages.length === 0 ? (
+          <div style={{
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#94a3b8',
+            gap: '12px',
+          }}>
+            <MessageCircle size={48} />
+            <p>Ask me anything about the textbook!</p>
           </div>
-        </div>
+        ) : (
+          messages.map((msg) => (
+            <div key={msg.id} style={{
+              display: 'flex',
+              flexDirection: 'column',
+              maxWidth: '80%',
+              alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start',
+            }}>
+              <div style={{
+                padding: '12px 16px',
+                borderRadius: '12px',
+                fontSize: '14px',
+                lineHeight: 1.5,
+                wordWrap: 'break-word',
+                background: msg.role === 'user' ? '#2563eb' : 'white',
+                color: msg.role === 'user' ? 'white' : '#1e293b',
+                border: msg.role === 'assistant' ? '1px solid #e2e8f0' : 'none',
+              }}>{msg.content}</div>
+              <div style={{
+                fontSize: '11px',
+                color: '#94a3b8',
+                marginTop: '4px',
+                padding: '0 4px',
+                textAlign: msg.role === 'user' ? 'right' : 'left',
+              }}>
+                {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              </div>
+            </div>
+          ))
+        )}
+        {isLoading && (
+          <div style={{ display: 'flex', flexDirection: 'column', maxWidth: '80%', alignSelf: 'flex-start' }}>
+            <div style={{ padding: '12px 16px', borderRadius: '12px', fontSize: '14px', background: 'white', border: '1px solid #e2e8f0' }}>
+              <div style={{ display: 'flex', gap: '4px', padding: '4px 0' }}>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+        )}
+        <div ref={messagesEndRef} />
+      </div>
+
+      <div style={{
+        padding: '16px 20px',
+        background: 'white',
+        borderTop: '1px solid #e2e8f0',
+        display: 'flex',
+        gap: '12px',
+        flexShrink: 0,
+      }}>
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+          placeholder="Ask a question..."
+          style={{
+            flex: 1,
+            padding: '12px 16px',
+            border: '1px solid #e2e8f0',
+            borderRadius: '12px',
+            fontSize: '14px',
+            fontFamily: 'inherit',
+            outline: 'none',
+          }}
+          disabled={isLoading}
+        />
+        <button 
+          onClick={sendMessage} 
+          style={{
+            width: '44px',
+            height: '44px',
+            borderRadius: '12px',
+            background: input.trim() && !isLoading ? '#2563eb' : '#cbd5e1',
+            color: 'white',
+            border: 'none',
+            cursor: input.trim() && !isLoading ? 'pointer' : 'not-allowed',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0,
+          }}
+          disabled={!input.trim() || isLoading}
+        >
+          <Send size={20} />
+        </button>
       </div>
     </div>
   );
