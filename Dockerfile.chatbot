@@ -20,4 +20,5 @@ RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
 USER appuser
 
 # Start app (migrations already run manually)
-CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Use shell form to allow $PORT variable expansion
+CMD uvicorn src.main:app --host 0.0.0.0 --port ${PORT:-8000}
