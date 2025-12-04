@@ -44,6 +44,7 @@ export default function PersonalizeButton({
     try {
       const API_URL = getApiUrl();
       console.log('🚀 Sending personalization request to:', `${API_URL}/api/personalize-content`);
+      console.log('👤 User object:', user);
       console.log('📦 Request data:', { userId: user.id, chapterTitle, contentLength: chapterContent.length });
       
       const response = await fetch(`${API_URL}/api/personalize-content`, {
