@@ -253,27 +253,31 @@ export default function ChatWidget() {
             <div style={{ padding: '12px 16px', borderRadius: '12px', fontSize: '14px', background: 'white', border: '1px solid #e2e8f0' }}>
               <div style={{ display: 'flex', gap: '6px', alignItems: 'center', padding: '4px 0' }}>
                 <span style={{
+                  display: 'inline-block',
                   width: '8px',
                   height: '8px',
                   borderRadius: '50%',
-                  background: '#94a3b8',
+                  background: '#2563eb',
                   animation: 'bounce 1.4s infinite ease-in-out',
                   animationDelay: '-0.32s'
                 }}></span>
                 <span style={{
+                  display: 'inline-block',
                   width: '8px',
                   height: '8px',
                   borderRadius: '50%',
-                  background: '#94a3b8',
+                  background: '#2563eb',
                   animation: 'bounce 1.4s infinite ease-in-out',
                   animationDelay: '-0.16s'
                 }}></span>
                 <span style={{
+                  display: 'inline-block',
                   width: '8px',
                   height: '8px',
                   borderRadius: '50%',
-                  background: '#94a3b8',
-                  animation: 'bounce 1.4s infinite ease-in-out'
+                  background: '#2563eb',
+                  animation: 'bounce 1.4s infinite ease-in-out',
+                  animationDelay: '0s'
                 }}></span>
               </div>
             </div>
