@@ -43,7 +43,7 @@ const config: Config = {
           routeBasePath: 'docs',
           sidebarPath: './sidebars.ts',
           editUrl:
-            'https://github.com/EngineerAbdulQadir/robotics-textbook/tree/master',
+            'https://github.com/EngineerAbdulQadir/robotics-textbook/tree/master/book',
           showLastUpdateTime: false,
         },
         blog: false, // Disable blog feature
@@ -85,19 +85,27 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Learning',
+          title: 'Learning Modules',
           items: [
             {
               label: 'Module 1: ROS 2 Fundamentals',
               to: '/docs/module-1/',
             },
             {
-              label: 'Code Examples',
-              to: '/docs/module-1/ch1-ros2-basics/',
+              label: 'Module 2: Sensors & Perception',
+              to: '/docs/module-2/',
             },
             {
-              label: 'Exercises',
-              to: '/docs/module-1/ch1-ros2-basics/',
+              label: 'Module 3: Navigation & SLAM',
+              to: '/docs/module-3/',
+            },
+            {
+              label: 'Module 4: Manipulation',
+              to: '/docs/module-4/',
+            },
+            {
+              label: 'Module 5: Advanced Topics',
+              to: '/docs/module-5/',
             },
           ],
         },
@@ -105,16 +113,24 @@ const config: Config = {
           title: 'Community',
           items: [
             {
-              label: 'GitHub',
+              label: 'GitHub Repository',
               href: 'https://github.com/EngineerAbdulQadir/robotics-textbook',
+            },
+            {
+              label: 'Report Issues',
+              href: 'https://github.com/EngineerAbdulQadir/robotics-textbook/issues',
+            },
+            {
+              label: 'Discussions',
+              href: 'https://github.com/EngineerAbdulQadir/robotics-textbook/discussions',
             },
             {
               label: 'ROS Discourse',
               href: 'https://discourse.ros.org/',
             },
             {
-              label: 'Issues & Feedback',
-              href: 'https://github.com/EngineerAbdulQadir/robotics-textbook/issues',
+              label: 'ROS Answers',
+              href: 'https://answers.ros.org/',
             },
           ],
         },
@@ -122,16 +138,24 @@ const config: Config = {
           title: 'Resources',
           items: [
             {
-              label: 'Contributing Guide',
-              href: 'https://github.com/EngineerAbdulQadir/robotics-textbook/blob/master/CONTRIBUTING.md',
-            },
-            {
               label: 'ROS 2 Documentation',
               href: 'https://docs.ros.org/en/humble/',
             },
             {
               label: 'Gazebo Simulator',
               href: 'https://gazebosim.org/',
+            },
+            {
+              label: 'MoveIt 2',
+              href: 'https://moveit.ros.org/',
+            },
+            {
+              label: 'Nav2 Documentation',
+              href: 'https://navigation.ros.org/',
+            },
+            {
+              label: 'Contributing Guide',
+              href: 'https://github.com/EngineerAbdulQadir/robotics-textbook/blob/master/CONTRIBUTING.md',
             },
           ],
         },

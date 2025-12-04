@@ -60,3 +60,7 @@ node_modules/
 .kiro/steering/byterover-rules.md
 .qoder/rules/byterover-rules.md
 .augment/rules/byterover-rules.md
+
+# Documentation and deployment notes (not for public repo)
+docs/
+1 - DEPLOYMENT/
