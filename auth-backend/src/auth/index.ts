@@ -48,8 +48,17 @@ function getAuth() {
                     console.log("   - Path:", context.path);
                     console.log("   - Method:", context.method);
                     
-                    const userId = context.context?.user?.id;
+                    // Try multiple possible paths to find userId
+                    let userId = context.context?.user?.id || 
+                                 context.user?.id || 
+                                 context.returned?.user?.id ||
+                                 context.body?.user?.id;
+                    
                     console.log(`   - Extracted userId: ${userId}`);
+                    console.log(`   - Context keys:`, Object.keys(context));
+                    if (context.returned) {
+                      console.log(`   - Returned keys:`, Object.keys(context.returned));
+                    }
                     
                     if (userId) {
                       const profileId = `profile_${userId}`;
@@ -73,10 +82,15 @@ function getAuth() {
                       console.log(`   - Verification: Profile ${createdProfile ? 'EXISTS' : 'NOT FOUND'}`);
                     } else {
                       console.error("   - ❌ No userId found in context");
+                      console.error("   - Available context structure:", {
+                        hasContext: !!context.context,
+                        hasUser: !!context.user,
+                        hasReturned: !!context.returned,
+                        hasBody: !!context.body
+                      });
                     }
                   } catch (error) {
                     console.error("❌ Failed to create user profile:", error);
-                    console.error("   - Error details:", error);
                   }
                 },
               },
