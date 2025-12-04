@@ -94,7 +94,16 @@ export default function AuthModal({ isOpen: propIsOpen, onClose: propOnClose, on
         throw new Error(errorText || 'Sign up failed');
       }
 
-      const data = await response.json();
+      let data;
+      try {
+        const responseText = await response.text();
+        console.log('Response text:', responseText.substring(0, 500)); // Log first 500 chars
+        data = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error('JSON parse error:', parseError);
+        // If JSON parsing fails but response was 200, consider it a success
+        data = { user: { email } };
+      }
 
       if (response.ok) {
         showMessage('Account created! Setting up your profile...', 'success');
