@@ -56,6 +56,15 @@ function getAuth() {
                     
                     console.log(`   - Extracted userId: ${userId}`);
                     console.log(`   - Context keys:`, Object.keys(context));
+                    if (context.context) {
+                      console.log(`   - context.context keys:`, Object.keys(context.context));
+                      if (context.context.user) {
+                        console.log(`   - context.context.user:`, context.context.user);
+                      }
+                    }
+                    if (context.body) {
+                      console.log(`   - context.body keys:`, Object.keys(context.body));
+                    }
                     if (context.returned) {
                       console.log(`   - Returned keys:`, Object.keys(context.returned));
                     }
