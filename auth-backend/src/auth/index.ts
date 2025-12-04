@@ -45,7 +45,8 @@ function getAuth() {
                 handler: async (context: any) => {
                   try {
                     console.log("🎯 Profile creation hook triggered!");
-                    console.log("   - Context:", JSON.stringify(context, null, 2));
+                    console.log("   - Path:", context.path);
+                    console.log("   - Method:", context.method);
                     
                     const userId = context.context?.user?.id;
                     console.log(`   - Extracted userId: ${userId}`);
