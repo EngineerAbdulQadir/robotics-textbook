@@ -33,22 +33,40 @@ function getAuth() {
         },
       },
       plugins: [
-        // Temporarily disabled - profiles will be created via the sign-up form data
-        // {
-        //   id: "user-profile-creator",
-        //   hooks: {
-        //     after: [
-        //       {
-        //         matcher: (context: any) => {
-        //           return context.path === "/sign-up/email" && context.method === "POST";
-        //         },
-        //         handler: async (context: any) => {
-        //           // Profile creation logic here
-        //         },
-        //       },
-        //     ],
-        //   },
-        // },
+        {
+          id: "user-profile-creator",
+          hooks: {
+            after: [
+              {
+                matcher: (context: any) => {
+                  return context.path === "/sign-up/email" && context.method === "POST";
+                },
+                handler: async (context: any) => {
+                  try {
+                    const userId = context.context?.user?.id;
+                    
+                    if (userId) {
+                      // Create default user profile
+                      await db.insert(schema.userProfiles).values({
+                        id: `profile_${userId}`,
+                        userId: userId,
+                        softwareExperience: null,
+                        hardwareExperience: null,
+                        programmingLanguages: [],
+                        roboticsBackground: null,
+                        learningGoals: null,
+                        preferredLanguage: "en",
+                      });
+                      console.log(`✅ Created profile for user ${userId}`);
+                    }
+                  } catch (error) {
+                    console.error("❌ Failed to create user profile:", error);
+                  }
+                },
+              },
+            ],
+          },
+        },
       ],
       trustedOrigins: [
         process.env.FRONTEND_URL || "http://localhost:3000",
