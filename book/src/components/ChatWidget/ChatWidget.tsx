@@ -12,9 +12,9 @@ import styles from './ChatWidget.module.css';
 
 // Backend URL configuration
 // For local development: http://localhost:8000
-// For production (GitHub Pages): https://rag-chatbot-backend-0nqt.onrender.com
+// For production (GitHub Pages): https://rag-chatbot-backend-production-5e31.up.railway.app
 const DEV_API_URL = 'http://localhost:8000';
-const PROD_API_URL = 'https://rag-chatbot-backend-0nqt.onrender.com';
+const PROD_API_URL = 'https://rag-chatbot-backend-production-5e31.up.railway.app';
 
 const API_URL = typeof window !== 'undefined' 
   ? (window as any).__CHATBOT_API_URL__ || (window.location.hostname === 'localhost' ? DEV_API_URL : PROD_API_URL)
