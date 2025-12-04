@@ -25,21 +25,36 @@ router.post("/personalize-content", async (req: Request, res: Response): Promise
 
     // Get user profile data
     console.log("🔍 Fetching user profile...");
+    console.log(`   - Looking for userId: ${userId}`);
+    
     const [userProfileData] = await db
       .select()
       .from(userProfiles)
       .where(eq(userProfiles.userId, userId))
       .limit(1);
 
+    console.log(`   - Query result:`, userProfileData ? 'Found' : 'Not found');
+    
     if (!userProfileData) {
-      console.error("❌ User profile not found");
+      // Check if ANY profiles exist
+      const allProfiles = await db.select().from(userProfiles).limit(5);
+      console.error(`❌ User profile not found for userId: ${userId}`);
+      console.error(`   - Total profiles in DB: ${allProfiles.length}`);
+      if (allProfiles.length > 0) {
+        console.error(`   - Sample profile userIds:`, allProfiles.map(p => p.userId));
+      }
+      
       res.status(404).json({ 
         error: "User profile not found. Please complete your profile first." 
       });
       return;
     }
 
-    console.log("✅ Profile found");
+    console.log("✅ Profile found:", {
+      id: userProfileData.id,
+      userId: userProfileData.userId,
+      softwareExperience: userProfileData.softwareExperience
+    });
 
     // Get user basic info
     const [userData] = await db

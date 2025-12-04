@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "../db";
 import * as schema from "../db/schema";
+import { eq } from "drizzle-orm";
 
 let authInstance: ReturnType<typeof betterAuth> | null = null;
 
@@ -43,12 +44,19 @@ function getAuth() {
                 },
                 handler: async (context: any) => {
                   try {
+                    console.log("🎯 Profile creation hook triggered!");
+                    console.log("   - Context:", JSON.stringify(context, null, 2));
+                    
                     const userId = context.context?.user?.id;
+                    console.log(`   - Extracted userId: ${userId}`);
                     
                     if (userId) {
+                      const profileId = `profile_${userId}`;
+                      console.log(`   - Creating profile with ID: ${profileId}`);
+                      
                       // Create default user profile
                       await db.insert(schema.userProfiles).values({
-                        id: `profile_${userId}`,
+                        id: profileId,
                         userId: userId,
                         softwareExperience: null,
                         hardwareExperience: null,
@@ -58,9 +66,16 @@ function getAuth() {
                         preferredLanguage: "en",
                       });
                       console.log(`✅ Created profile for user ${userId}`);
+                      
+                      // Verify it was created
+                      const [createdProfile] = await db.select().from(schema.userProfiles).where(eq(schema.userProfiles.userId, userId)).limit(1);
+                      console.log(`   - Verification: Profile ${createdProfile ? 'EXISTS' : 'NOT FOUND'}`);
+                    } else {
+                      console.error("   - ❌ No userId found in context");
                     }
                   } catch (error) {
                     console.error("❌ Failed to create user profile:", error);
+                    console.error("   - Error details:", error);
                   }
                 },
               },
