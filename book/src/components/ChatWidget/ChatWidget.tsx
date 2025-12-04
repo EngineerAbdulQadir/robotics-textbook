@@ -1,6 +1,28 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { MessageCircle, X, Send, Trash2 } from 'lucide-react';
 
+// Inject CSS animation for loading dots
+if (typeof document !== 'undefined') {
+  const styleId = 'chat-widget-animations';
+  if (!document.getElementById(styleId)) {
+    const style = document.createElement('style');
+    style.id = styleId;
+    style.textContent = `
+      @keyframes bounce {
+        0%, 80%, 100% {
+          transform: scale(0);
+          opacity: 0.5;
+        }
+        40% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+}
+
 const API_URL = typeof window !== 'undefined' && window.location.hostname === 'localhost'
   ? 'http://localhost:8000'
   : 'https://rag-chatbot-backend-production-5e31.up.railway.app';
@@ -229,10 +251,30 @@ export default function ChatWidget() {
         {isLoading && (
           <div style={{ display: 'flex', flexDirection: 'column', maxWidth: '80%', alignSelf: 'flex-start' }}>
             <div style={{ padding: '12px 16px', borderRadius: '12px', fontSize: '14px', background: 'white', border: '1px solid #e2e8f0' }}>
-              <div style={{ display: 'flex', gap: '4px', padding: '4px 0' }}>
-                <span></span>
-                <span></span>
-                <span></span>
+              <div style={{ display: 'flex', gap: '6px', alignItems: 'center', padding: '4px 0' }}>
+                <span style={{
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '50%',
+                  background: '#94a3b8',
+                  animation: 'bounce 1.4s infinite ease-in-out',
+                  animationDelay: '-0.32s'
+                }}></span>
+                <span style={{
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '50%',
+                  background: '#94a3b8',
+                  animation: 'bounce 1.4s infinite ease-in-out',
+                  animationDelay: '-0.16s'
+                }}></span>
+                <span style={{
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '50%',
+                  background: '#94a3b8',
+                  animation: 'bounce 1.4s infinite ease-in-out'
+                }}></span>
               </div>
             </div>
           </div>
