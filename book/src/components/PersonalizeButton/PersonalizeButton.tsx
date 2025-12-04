@@ -65,7 +65,14 @@ export default function PersonalizeButton({
 
       if (!response.ok) {
         // Show the actual error message from the API
-        throw new Error(data.error || 'Failed to personalize content');
+        const errorMessage = data.error || 'Failed to personalize content';
+        
+        // Special handling for profile not found
+        if (errorMessage.includes('profile not found') || response.status === 404) {
+          throw new Error('Profile not found. Please sign out and create a new account to use personalization features.');
+        }
+        
+        throw new Error(errorMessage);
       }
       
       setStatus('success');
