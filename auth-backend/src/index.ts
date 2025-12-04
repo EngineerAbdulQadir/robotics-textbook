@@ -8,6 +8,8 @@ import { translationRoutes } from "./routes/translation";
 import { setupUserProfileSchema } from "./db/userProfileSchema";
 import { validateDatabaseConnection } from "./db";
 import { toNodeHandler } from "better-auth/node";
+import { db } from "./db";
+import { sql } from "drizzle-orm";
 
 dotenv.config();
 

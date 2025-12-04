@@ -68,6 +68,7 @@ export default function AuthModal({ isOpen: propIsOpen, onClose: propOnClose, on
     setLoading(true);
 
     try {
+      console.log('Attempting sign up to:', `${API_URL}/api/auth/sign-up/email`);
       const response = await fetch(`${API_URL}/api/auth/sign-up/email`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -85,8 +86,11 @@ export default function AuthModal({ isOpen: propIsOpen, onClose: propOnClose, on
         }),
       });
 
+      console.log('Sign up response status:', response.status);
+      
       if (!response.ok) {
         const errorText = await response.text();
+        console.error('Sign up error:', errorText);
         throw new Error(errorText || 'Sign up failed');
       }
 
@@ -136,6 +140,7 @@ export default function AuthModal({ isOpen: propIsOpen, onClose: propOnClose, on
     setLoading(true);
 
     try {
+      console.log('Attempting sign in to:', `${API_URL}/api/auth/sign-in/email`);
       const response = await fetch(`${API_URL}/api/auth/sign-in/email`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -143,8 +148,11 @@ export default function AuthModal({ isOpen: propIsOpen, onClose: propOnClose, on
         body: JSON.stringify({ email, password }),
       });
 
+      console.log('Sign in response status:', response.status);
+      
       if (!response.ok) {
         const errorText = await response.text();
+        console.error('Sign in error:', errorText);
         throw new Error(errorText || 'Sign in failed');
       }
 

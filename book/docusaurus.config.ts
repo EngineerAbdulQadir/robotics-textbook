@@ -15,15 +15,15 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://92Bilal26.github.io',
+  url: 'https://engineerabdulqadir.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/robotics-textbook/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: '92Bilal26', // Usually your GitHub org/user name.
-  projectName: 'physical-ai-textbook', // Usually your repo name.
+  organizationName: 'EngineerAbdulQadir', // Usually your GitHub org/user name.
+  projectName: 'robotics-textbook', // Usually your repo name.
 
   onBrokenLinks: 'warn', // Allow deployment with "coming soon" chapters
 
